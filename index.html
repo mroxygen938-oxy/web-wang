@@ -213,15 +213,15 @@
 </head>
 <body class="bg-[#07060D] text-on-surface min-h-screen flex flex-col relative selection:bg-primary-container selection:text-on-primary-container">
 
-<!-- 3.png Fixed Mountain Artwork Background System -->
+<!-- 12.png Fixed Mountain Artwork Background System -->
 <div class="fixed inset-0 z-0 overflow-hidden bg-[#07060D]">
-  <!-- 3.png Mountain Image Base Layer -->
-  <div class="absolute inset-0 bg-cover bg-center bg-no-repeat pointer-events-none transform scale-105" 
-       style="background-image: url('3.png'); background-attachment: fixed;"></div>
+  <!-- 12.png Mountain Image Base Layer with Perfect Sizing -->
+  <div class="absolute inset-0 bg-cover bg-center bg-no-repeat pointer-events-none transform scale-[1.02] transition-transform duration-500" 
+       style="background-image: url('12.png'); background-attachment: fixed; background-size: cover; background-position: center center;"></div>
   
   <!-- Deep Atmospheric Vignette & Contrast Overlay -->
-  <div class="absolute inset-0 bg-gradient-to-b from-[#07060D]/70 via-[#07060D]/40 to-[#07060D]/90 pointer-events-none"></div>
-  <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_transparent_10%,_#07060D_90%)] opacity-75 pointer-events-none"></div>
+  <div class="absolute inset-0 bg-gradient-to-b from-[#07060D]/65 via-[#07060D]/35 to-[#07060D]/85 pointer-events-none"></div>
+  <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_transparent_15%,_#07060D_88%)] opacity-70 pointer-events-none"></div>
 
   <!-- LAYER 1: Behind High Mountain Peaks (Farthest Sky Depth Layer) -->
   <div class="interactive-cloud absolute top-[2%] left-0 cloud-drift-1 z-1 opacity-70">
