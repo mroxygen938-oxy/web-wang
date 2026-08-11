@@ -175,64 +175,88 @@
 <!-- Distinct 3D Moving Cloud Background System -->
 <div class="fixed inset-0 z-0 pointer-events-none overflow-hidden bg-[#07060D]">
   <!-- Deep Cosmic Ambient Glow -->
-  <div class="absolute inset-0 bg-gradient-to-b from-purple-950/40 via-indigo-950/30 to-[#07060D]"></div>
+  <div class="absolute inset-0 bg-gradient-to-b from-purple-950/30 via-indigo-950/20 to-[#07060D]"></div>
 
   <!-- Puffy Cloud 1 (Top Layer) -->
-  <div class="absolute top-[8%] left-0 cloud-drift-1 filter drop-shadow-[0_20px_50px_rgba(168,85,247,0.5)]">
-    <svg width="520" height="260" viewBox="0 0 520 260" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <div class="absolute top-[6%] left-0 cloud-drift-1">
+    <svg width="550" height="300" viewBox="0 0 550 300" fill="none" xmlns="http://www.w3.org/2000/svg">
       <defs>
         <linearGradient id="cloudGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stop-color="#E9D5FF" stop-opacity="0.95"/>
-          <stop offset="45%" stop-color="#C084FC" stop-opacity="0.8"/>
-          <stop offset="85%" stop-color="#7C3AED" stop-opacity="0.5"/>
-          <stop offset="100%" stop-color="#3B82F6" stop-opacity="0.2"/>
+          <stop offset="0%" stop-color="#F3E8FF" stop-opacity="0.85"/>
+          <stop offset="40%" stop-color="#C084FC" stop-opacity="0.65"/>
+          <stop offset="80%" stop-color="#7C3AED" stop-opacity="0.45"/>
+          <stop offset="100%" stop-color="#3B82F6" stop-opacity="0.15"/>
         </linearGradient>
+        <filter id="cloudGlow1" x="-30%" y="-30%" width="160%" height="160%">
+          <feGaussianBlur stdDeviation="16" result="blur" />
+          <feComposite in="SourceGraphic" in2="blur" operator="over" />
+        </filter>
       </defs>
-      <path fill="url(#cloudGrad1)" d="M80,200 C40,200 10,170 10,130 C10,95 35,65 70,60 C85,25 125,0 170,0 C220,0 260,30 275,70 C295,55 325,50 350,65 C385,85 395,125 380,160 C410,165 430,190 420,220 C410,240 380,250 350,250 L80,250 Z"/>
+      <g filter="url(#cloudGlow1)">
+        <path fill="url(#cloudGrad1)" d="M 120 200 C 70 200, 40 160, 65 120 C 45 85, 80 45, 130 55 C 160 25, 230 20, 275 55 C 315 35, 375 45, 395 85 C 435 85, 465 125, 445 165 C 465 205, 425 240, 380 230 C 340 250, 275 250, 240 230 C 200 245, 150 235, 120 200 Z"/>
+      </g>
     </svg>
   </div>
 
-  <!-- Puffy Cloud 2 (Hero Center - Large Volumetric Cloud) -->
-  <div class="absolute top-[28%] left-0 cloud-drift-2 filter drop-shadow-[0_25px_60px_rgba(99,102,241,0.6)]">
-    <svg width="680" height="320" viewBox="0 0 680 320" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Puffy Cloud 2 (Hero Center - Large Volumetric Soft Cloud) -->
+  <div class="absolute top-[26%] left-0 cloud-drift-2">
+    <svg width="680" height="360" viewBox="0 0 680 360" fill="none" xmlns="http://www.w3.org/2000/svg">
       <defs>
         <linearGradient id="cloudGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
           <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.9"/>
-          <stop offset="35%" stop-color="#DDD6FE" stop-opacity="0.85"/>
-          <stop offset="70%" stop-color="#818CF8" stop-opacity="0.6"/>
-          <stop offset="100%" stop-color="#4F46E5" stop-opacity="0.3"/>
+          <stop offset="35%" stop-color="#DDD6FE" stop-opacity="0.75"/>
+          <stop offset="75%" stop-color="#818CF8" stop-opacity="0.5"/>
+          <stop offset="100%" stop-color="#4F46E5" stop-opacity="0.2"/>
         </linearGradient>
+        <filter id="cloudGlow2" x="-30%" y="-30%" width="160%" height="160%">
+          <feGaussianBlur stdDeviation="22" result="blur" />
+          <feComposite in="SourceGraphic" in2="blur" operator="over" />
+        </filter>
       </defs>
-      <path fill="url(#cloudGrad2)" d="M100,260 C50,260 15,220 15,170 C15,125 50,85 95,80 C115,30 165,0 225,0 C285,0 335,35 355,85 C380,65 420,60 455,80 C500,105 520,155 495,200 C535,205 565,240 550,280 C535,310 495,320 450,320 L100,320 Z"/>
+      <g filter="url(#cloudGlow2)">
+        <path fill="url(#cloudGrad2)" d="M 140 240 C 80 240, 45 190, 75 140 C 50 100, 95 50, 155 65 C 190 30, 270 20, 325 65 C 375 40, 445 50, 470 100 C 520 100, 555 145, 530 195 C 555 245, 505 285, 450 275 C 400 300, 325 300, 285 275 C 235 295, 175 280, 140 240 Z"/>
+      </g>
     </svg>
   </div>
 
   <!-- Puffy Cloud 3 (Mid-Lower Layer - Bright Azure Glow) -->
-  <div class="absolute top-[55%] left-0 cloud-drift-3 filter drop-shadow-[0_20px_50px_rgba(59,130,246,0.55)]">
-    <svg width="580" height="280" viewBox="0 0 580 280" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <div class="absolute top-[52%] left-0 cloud-drift-3">
+    <svg width="600" height="320" viewBox="0 0 600 320" fill="none" xmlns="http://www.w3.org/2000/svg">
       <defs>
         <linearGradient id="cloudGrad3" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stop-color="#F472B6" stop-opacity="0.9"/>
-          <stop offset="40%" stop-color="#C084FC" stop-opacity="0.75"/>
-          <stop offset="80%" stop-color="#60A5FA" stop-opacity="0.5"/>
-          <stop offset="100%" stop-color="#1E3A8A" stop-opacity="0.2"/>
+          <stop offset="0%" stop-color="#F472B6" stop-opacity="0.85"/>
+          <stop offset="45%" stop-color="#C084FC" stop-opacity="0.65"/>
+          <stop offset="85%" stop-color="#60A5FA" stop-opacity="0.4"/>
+          <stop offset="100%" stop-color="#1E3A8A" stop-opacity="0.15"/>
         </linearGradient>
+        <filter id="cloudGlow3" x="-30%" y="-30%" width="160%" height="160%">
+          <feGaussianBlur stdDeviation="18" result="blur" />
+          <feComposite in="SourceGraphic" in2="blur" operator="over" />
+        </filter>
       </defs>
-      <path fill="url(#cloudGrad3)" d="M90,220 C45,220 10,185 10,140 C10,100 40,65 80,60 C100,25 145,0 195,0 C250,0 295,30 310,70 C335,50 370,45 400,65 C440,90 455,135 435,175 C470,180 490,210 480,240 C465,265 430,275 390,275 L90,275 Z"/>
+      <g filter="url(#cloudGlow3)">
+        <path fill="url(#cloudGrad3)" d="M 130 210 C 75 210, 40 170, 70 125 C 45 90, 85 45, 140 58 C 170 25, 245 15, 295 58 C 340 35, 405 45, 425 90 C 470 90, 500 130, 480 175 C 500 220, 455 255, 405 245 C 360 265, 290 265, 255 245 C 210 260, 155 250, 130 210 Z"/>
+      </g>
     </svg>
   </div>
 
   <!-- Puffy Cloud 4 (Lower Viewport Layer) -->
-  <div class="absolute top-[75%] left-0 cloud-drift-4 filter drop-shadow-[0_25px_60px_rgba(168,85,247,0.5)]">
-    <svg width="620" height="300" viewBox="0 0 620 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <div class="absolute top-[72%] left-0 cloud-drift-4">
+    <svg width="640" height="340" viewBox="0 0 640 340" fill="none" xmlns="http://www.w3.org/2000/svg">
       <defs>
         <linearGradient id="cloudGrad4" x1="0%" y1="0%" x2="100%" y2="100%">
           <stop offset="0%" stop-color="#E9D5FF" stop-opacity="0.85"/>
-          <stop offset="50%" stop-color="#A855F7" stop-opacity="0.65"/>
-          <stop offset="100%" stop-color="#312E81" stop-opacity="0.3"/>
+          <stop offset="50%" stop-color="#A855F7" stop-opacity="0.6"/>
+          <stop offset="100%" stop-color="#312E81" stop-opacity="0.2"/>
         </linearGradient>
+        <filter id="cloudGlow4" x="-30%" y="-30%" width="160%" height="160%">
+          <feGaussianBlur stdDeviation="18" result="blur" />
+          <feComposite in="SourceGraphic" in2="blur" operator="over" />
+        </filter>
       </defs>
-      <path fill="url(#cloudGrad4)" d="M95,240 C45,240 10,200 10,150 C10,110 45,70 85,65 C105,25 155,0 210,0 C270,0 315,35 330,80 C355,60 395,55 425,75 C470,100 485,150 465,190 C505,195 530,230 515,265 C500,290 460,300 415,300 L95,300 Z"/>
+      <g filter="url(#cloudGlow4)">
+        <path fill="url(#cloudGrad4)" d="M 135 225 C 80 225, 45 180, 75 135 C 50 95, 90 50, 145 62 C 180 28, 255 18, 305 62 C 350 38, 420 48, 440 95 C 485 95, 520 138, 495 185 C 518 230, 475 270, 425 260 C 378 282, 305 282, 268 260 C 220 275, 162 265, 135 225 Z"/>
+      </g>
     </svg>
   </div>
 
