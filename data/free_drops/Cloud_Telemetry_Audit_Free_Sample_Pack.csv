@@ -1,0 +1,5 @@
+timestamp,log_level,endpoint,status_code,client_ip,bytes_sent
+2026-08-10 00:18:02,INFO,/api/v1/telemetry,200,198.51.100.42,4096
+2026-08-10 00:19:44,DEBUG,/gateway/route,200,198.51.100.88,1024
+2026-08-10 00:21:05,SYS,/cluster/scale,201,10.0.4.12,8192
+2026-08-10 00:24:12,INFO,/auth/validate,200,198.51.100.101,2048

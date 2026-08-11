@@ -1,0 +1,263 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta content="width=device-width, initial-scale=1.0" name="viewport"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&amp;family=Sora:wght@600;700&amp;display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"><style>@layer base{html,body{margin:0;padding:0;color-scheme:dark;}body{overscroll-behavior:none;background:#0b1326;min-height:100vh;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}.glass-panel{background:rgba(23,31,51,0.6);backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,0.1);box-shadow:inset 0 1px 1px rgba(255,255,255,0.05);}.glass-nav{background:rgba(11,19,38,0.7);backdrop-filter:blur(30px);border-bottom:1px solid rgba(255,255,255,0.05);}.bg-animation-container{position:fixed;top:0;left:0;width:100%;height:100%;z-index:-1;pointer-events:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{"error-container":"#93000a","on-tertiary-fixed":"#341100","on-surface":"#dae2fd","on-primary-container":"#fdf9ff","on-primary-fixed":"#09006b","on-primary-fixed-variant":"#2b20d2","on-surface-variant":"#c7c4d8","tertiary-container":"#bf5200","background":"#0b1326","on-secondary-fixed":"#2c0051","on-error":"#690005","surface-dim":"#0b1326","on-secondary":"#490081","tertiary":"#ffb691","surface-container-low":"#131b2e","on-secondary-container":"#d1a1ff","secondary-fixed-dim":"#ddb8ff","primary-fixed-dim":"#c1c1ff","on-tertiary-fixed-variant":"#793100","secondary":"#ddb8ff","surface-variant":"#2d3449","surface-container-high":"#222a3d","outline-variant":"#464556","surface-tint":"#c1c1ff","primary":"#c1c1ff","secondary-container":"#62259b","surface-container-highest":"#2d3449","primary-fixed":"#e1dfff","tertiary-fixed":"#ffdbcb","surface":"#0b1326","inverse-on-surface":"#283044","inverse-surface":"#dae2fd","outline":"#908fa1","error":"#ffb4ab","surface-container":"#171f33","primary-container":"#5d5cff","on-tertiary-container":"#fff9f7","surface-bright":"#31394d","on-tertiary":"#552000","surface-container-lowest":"#060e20","on-background":"#dae2fd","on-secondary-fixed-variant":"#62259b","secondary-fixed":"#f0dbff","on-error-container":"#ffdad6","tertiary-fixed-dim":"#ffb691","inverse-primary":"#4643e9","on-primary":"#1500a8"},borderRadius:{DEFAULT:"0.25rem",lg:"0.5rem",xl:"0.75rem",full:"9999px"},spacing:{base:"8px",gutter:"24px","margin-desktop":"64px","margin-mobile":"16px","container-padding":"32px"},fontFamily:{"body-lg":["Inter"],"display-lg":["Sora"],"label-sm":["Inter"],"body-md":["Inter"],"headline-md":["Sora"],"display-lg-mobile":["Sora"]},fontSize:{"body-lg":["18px",{lineHeight:"1.6",fontWeight:"400"}],"display-lg":["48px",{lineHeight:"1.1",letterSpacing:"-0.02em",fontWeight:"700"}],"label-sm":["13px",{lineHeight:"1",letterSpacing:"0.05em",fontWeight:"600"}],"body-md":["16px",{lineHeight:"1.5",fontWeight:"400"}],"headline-md":["24px",{lineHeight:"1.3",fontWeight:"600"}],"display-lg-mobile":["32px",{lineHeight:"1.2",letterSpacing:"-0.02em",fontWeight:"700"}]}}}}</script></head><body class="bg-background font-body-md text-on-surface min-h-screen"><div class="bg-animation-container"><!-- STITCH_SHADER_START:ANIMATION_2 class="" -->
+<div class="" style="display:block;width:100%;height:100%;min-height:200px;">
+<canvas id="shader-canvas-ANIMATION_2" style="display:block;width:100%;height:100%" width="1280" height="2922"></canvas>
+<script>
+(function() {
+  const canvas = document.getElementById('shader-canvas-ANIMATION_2');
+
+  // Sync the WebGL drawing-buffer size with the CSS-driven layout size.
+  // This fires on initial layout and whenever the element is resized.
+  function syncSize() {
+    const w = canvas.clientWidth  || 1280;
+    const h = canvas.clientHeight || 720;
+    if (canvas.width !== w || canvas.height !== h) {
+      canvas.width  = w;
+      canvas.height = h;
+    }
+  }
+  if (typeof ResizeObserver !== 'undefined') {
+    new ResizeObserver(syncSize).observe(canvas);
+  }
+  syncSize();
+
+  const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+  if (!gl) return;
+  const vs = `attribute vec2 a_position;
+varying vec2 v_texCoord;
+void main() {
+  v_texCoord = a_position * 0.5 + 0.5;
+  gl_Position = vec4(a_position, 0.0, 1.0);
+}`;
+  const fs = `precision highp float;
+uniform float u_time;
+uniform vec2 u_resolution;
+uniform vec2 u_mouse;
+varying vec2 v_texCoord;
+
+void main() {
+    vec2 uv = v_texCoord;
+    vec2 mouse = u_mouse / u_resolution;
+    
+    // Create a flowing, liquid-like gradient background
+    float color1 = sin(uv.x * 3.0 + u_time * 0.5) * 0.5 + 0.5;
+    float color2 = cos(uv.y * 2.0 - u_time * 0.3) * 0.5 + 0.5;
+    float color3 = sin((uv.x + uv.y) * 4.0 + u_time * 0.7) * 0.5 + 0.5;
+    
+    // Interaction with mouse
+    float dist = distance(uv, mouse);
+    float glow = smoothstep(0.3, 0.0, dist) * 0.2;
+    
+    vec3 baseColor = vec3(0.05, 0.08, 0.15); // Deep dark blue
+    vec3 accent1 = vec3(0.36, 0.36, 1.0);    // Electric blue
+    vec3 accent2 = vec3(0.5, 0.0, 0.8);      // Purple
+    
+    vec3 finalColor = mix(baseColor, accent1, color1 * 0.3);
+    finalColor = mix(finalColor, accent2, color2 * 0.2);
+    finalColor += glow * accent1;
+    
+    gl_FragColor = vec4(finalColor, 1.0);
+}`;
+  function cs(type, src) {
+    const s = gl.createShader(type);
+    gl.shaderSource(s, src);
+    gl.compileShader(s);
+    return s;
+  }
+  const prog = gl.createProgram();
+  gl.attachShader(prog, cs(gl.VERTEX_SHADER, vs));
+  gl.attachShader(prog, cs(gl.FRAGMENT_SHADER, fs));
+  gl.linkProgram(prog);
+  gl.useProgram(prog);
+  const buf = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 1,-1, -1,1, 1,1]), gl.STATIC_DRAW);
+  const pos = gl.getAttribLocation(prog, 'a_position');
+  gl.enableVertexAttribArray(pos);
+  gl.vertexAttribPointer(pos, 2, gl.FLOAT, false, 0, 0);
+  const uTime = gl.getUniformLocation(prog, 'u_time');
+  const uRes = gl.getUniformLocation(prog, 'u_resolution');
+  const uMouse = gl.getUniformLocation(prog, 'u_mouse');
+
+  // u_mouse is in pixel coordinates matching u_resolution (ShaderToy convention).
+  // Shaders that need normalized coords should use: u_mouse / u_resolution.
+  let mouse = { x: canvas.width / 2, y: canvas.height / 2 };
+  window.addEventListener('mousemove', (event) => {
+    const rect = canvas.getBoundingClientRect();
+    if (rect.width && rect.height) {
+      const nx = (event.clientX - rect.left) / rect.width;
+      const ny = 1.0 - (event.clientY - rect.top) / rect.height;
+      mouse.x = nx * canvas.width;
+      mouse.y = ny * canvas.height;
+    }
+  });
+
+  function render(t) {
+    if (typeof ResizeObserver === 'undefined') syncSize();
+    gl.viewport(0, 0, canvas.width, canvas.height);
+    if (uTime) gl.uniform1f(uTime, t * 0.001);
+    if (uRes) gl.uniform2f(uRes, canvas.width, canvas.height);
+    if (uMouse) gl.uniform2f(uMouse, mouse.x, mouse.y);
+    gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+    requestAnimationFrame(render);
+  }
+  render(0);
+})();
+</script>
+</div>
+<!-- STITCH_SHADER_END:ANIMATION_2 --></div><header class="fixed top-0 w-full z-50 glass-nav"><div class="h-20 w-full px-margin-desktop flex items-center justify-between"><div class="flex items-center gap-base"><img alt="Lumina Prism Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCzJ0eZwRoTpE7ThqhF5tDO8xOOMiBb3UkBHZjwdJ2vViq2yZcCKksd5s9ZxOe4Vejanh7Gv9mKk_8CIEw5jAMWafqbJYs1FhrsXgQpk5wEcCxp8S7G6NdEkNLFTcbMEK_cAal9luh_mTqsf5B7jhA-EjEWGRyFeCSSyu1ClppbhEaL3hDInwzVCa84JMegpgx6q7D5HCt7ifSJmJSCClSbPXVypJPAn-f4ANC-2dVVtTygVSR45YlT"><span class="font-display-lg text-headline-md tracking-tight text-on-surface">Wangling Cloud</span></div><nav class="hidden md:flex items-center gap-gutter" data-active-classes="text-primary font-semibold"><a class="font-body-md text-on-surface-variant hover:text-on-surface transition-colors" data-path="home" href="#">Home</a><a aria-current="page" class="transition-colors text-primary font-semibold" data-path="product" href="#">Product</a><a class="font-body-md text-on-surface-variant hover:text-on-surface transition-colors" data-path="updates" href="#">Updates</a></nav><div class="flex items-center gap-gutter"><button class="p-base rounded-full hover:bg-surface-container-high transition-colors flex items-center justify-center"><span class="material-symbols-outlined text-on-surface">light_mode</span></button><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="w-full pt-20 px-margin-desktop min-h-[calc(100vh-80px)]"><div class="flex flex-col w-full gap-margin-desktop">
+<!-- Hero Section -->
+<div class="relative w-full h-[614px] min-h-[500px] flex flex-col justify-end p-margin-desktop -mt-20 overflow-hidden" data-alt="A breathtaking, abstract macro photography shot of prismatic glass structures interweaving. Deep hues of Lumina Prism's primary #c1c1ff and secondary #ddb8ff colors refract through the crystalline facets. Volumetric lighting casts long, elegant shadows against a very dark, moody #0b1326 background. The composition is dynamic, suggesting movement and light manipulation. High contrast, cinematic lighting, 8k resolution." style="background-image: url(&quot;https://lh3.googleusercontent.com/aida-public/AB6AXuCU97sCbBgSmk6rdZoQI1tcnMOgsqTvL_lvsbQDnGQeFjkdDiE_lcL9Jq90O1b2uAlvvQ7jfSvnoECHJHdlhzm2_J3aYYCgsyzX0zc6Cu-vWdbiteEPe_n1Fys5V1U-YvWE2SdxXpu4p5DrWCNqmcYBBFr7HNfpyrZD0ylPY00OUnjrt2tM_xbP5lTjpE7CUzeQydCr2terrAxj89zC5Kf7ljypBP0j71i0whR8mEf4rntzWHkhvFk9&quot;);">
+<div class="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent z-0"></div>
+<div class="relative z-10 max-w-4xl space-y-gutter">
+<div class="inline-block px-4 py-2 rounded-full glass-panel bg-primary-container/20 text-on-primary-container font-label-sm uppercase tracking-widest backdrop-blur-md">
+                Featured Product
+            </div>
+<h1 class="font-display-lg text-display-lg text-on-surface text-balance drop-shadow-2xl">
+                The Zenith Prism: Bending Light to Your Will
+            </h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl text-balance">
+                Our most advanced refractive module yet, engineered to harness ambient photons and convert them into usable, aesthetic energy structures.
+            </p>
+</div>
+</div>
+<!-- Article Content Layout -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter px-margin-desktop pb-margin-desktop">
+<!-- Left Sidebar / Meta Information -->
+<aside class="lg:col-span-3 space-y-gutter">
+<div class="glass-panel p-gutter rounded-xl bg-surface-container-low/40 backdrop-blur-[24px] sticky top-24">
+<div class="space-y-6">
+<div>
+<div class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider mb-2">Released</div>
+<div class="font-body-md text-body-md text-on-surface">October 24, 2024</div>
+</div>
+<div>
+<div class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider mb-2">Category</div>
+<div class="font-body-md text-body-md text-on-surface">Photonics / Hardware</div>
+</div>
+<div>
+<div class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider mb-2">Authors</div>
+<div class="flex items-center gap-3 mt-3">
+<div class="w-10 h-10 rounded-full bg-surface-variant flex items-center justify-center overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Professional headshot of a female lead engineer in a futuristic, dimly lit laboratory. She is wearing a dark minimalist uniform with subtle glowing blue accents. The lighting highlights her face, creating a dramatic, thoughtful mood. Shot on 85mm lens, shallow depth of field." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAh2fNej-6r1rmYmpUA_aDz7YQAOJ6_vbUT0PM2Urz4a6Zg-CanCAYDn_fGVbbTLT_iMwJZdX__WfL2PgqJB6QbcxJvZwFRYOViLyPbD0yZXARA8awPJU7q70GLVaNiHv6z6gNp1iat6J78lCwi4HyikURQpuAwbjme6Km4dagDflPAKlww9afHc6qGl6oIYpWYHtzHGePUTkojOz-n5mvZdaZUewWPDJx6pOHxPT5tt0eUFwSbYkg3">
+</div>
+<span class="font-body-md text-body-md text-on-surface">Dr. Elara Vance</span>
+</div>
+</div>
+<div class="pt-4 mt-4 relative">
+<!-- Decorative separator -->
+<div class="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-outline-variant/50 to-transparent"></div>
+<button class="w-full py-3 rounded-lg bg-gradient-to-r from-primary to-secondary text-surface-container-lowest font-label-sm uppercase tracking-wider shadow-[0_0_20px_rgba(193,193,255,0.3)] hover:shadow-[0_0_30px_rgba(193,193,255,0.5)] transition-shadow">
+                            Pre-order Now
+                        </button>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<article class="lg:col-span-8 lg:col-start-5 space-y-12">
+<section class="glass-panel p-[40px] rounded-2xl bg-surface/60 backdrop-blur-[16px] shadow-xl relative overflow-hidden group">
+<!-- Subtle ambient glow inside the card -->
+<div class="absolute -top-32 -right-32 w-64 h-64 bg-primary/10 rounded-full blur-[80px] group-hover:bg-primary/20 transition-colors duration-700 pointer-events-none"></div>
+<h2 class="font-headline-md text-headline-md text-on-surface mb-6">Redefining Optical Boundaries</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant mb-6 text-pretty leading-relaxed">
+                    The Zenith Prism isn't just an iteration; it's a fundamental reimagining of how we interact with light. By utilizing a proprietary silica-lattice matrix, we've achieved a refractive index previously thought physically impossible outside of theoretical models. This allows for near-perfect light transmission with zero chromatic aberration.
+                </p>
+<p class="font-body-lg text-body-lg text-on-surface-variant text-pretty leading-relaxed">
+                    When integrated into your workflow, the Zenith acts as a passive amplifier. It captures stray photons from the environment, aligns their phase, and directs them into a coherent beam that can be utilized for precise cutting, data transmission, or pure aesthetic illumination.
+                </p>
+</section>
+<!-- Image Breakout -->
+<figure class="relative w-full h-[500px] rounded-2xl overflow-hidden glass-panel">
+<img class="w-full h-full object-cover" data-alt="A highly detailed 3D render of the Zenith Prism device hovering in mid-air above a dark, textured metallic surface. The device is a complex geometric structure made of ultra-clear glass, emitting a soft, ethereal violet glow (#ddb8ff) from its core. Laser beams in primary blue (#c1c1ff) are entering one facet and splitting into a spectrum of colors upon exit. Background is a deep, out-of-focus void (#0b1326)." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDrj1SAJdEQXruRdGVEPx9ixX4aZCPqYyy9WMvDW5Fxz5cAo6-HO2rFdVNjmyaTPcc_5wc6iaJqC1FMywKKH8FsAHCDgsE-r0rWVDhgLb3tln8IdqCl_hOKWT9l1beqoSu2pdA_0UDkOLZI9KIkiVFNOiCY-aSaG3LKewKtVqGhM2n56XWyX2aKkNnqxyv-F5sgL-6MVdEXp8b6jtx5X86o7oM0xkfIuybp_Lx4AzJOPGdAZClwwqE5">
+<figcaption class="absolute bottom-0 left-0 w-full p-6 bg-gradient-to-t from-background/90 via-background/60 to-transparent backdrop-blur-[2px]">
+<span class="font-body-md text-body-md text-primary-fixed">Fig 1.</span>
+<span class="font-body-md text-body-md text-on-surface-variant ml-2">The Zenith Prism demonstrating core luminescence in a zero-gravity chamber.</span>
+</figcaption>
+</figure>
+<section class="glass-panel p-[40px] rounded-2xl bg-surface/60 backdrop-blur-[16px] shadow-xl relative overflow-hidden">
+<h2 class="font-headline-md text-headline-md text-on-surface mb-6">Technical Specifications</h2>
+<!-- Data Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
+<div class="p-6 rounded-xl bg-surface-container-low/50 backdrop-blur-md relative overflow-hidden group">
+<div class="absolute left-0 top-0 w-1 h-full bg-primary transform origin-bottom scale-y-0 group-hover:scale-y-100 transition-transform duration-300"></div>
+<div class="font-label-sm text-label-sm text-primary mb-2 flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">speed</span>
+                            Refractive Index
+                        </div>
+<div class="font-headline-md text-headline-md text-on-surface">2.417 — 2.419</div>
+<div class="font-body-md text-body-md text-on-surface-variant mt-1 text-sm">Dynamic adjustment based on ambient temperature.</div>
+</div>
+<div class="p-6 rounded-xl bg-surface-container-low/50 backdrop-blur-md relative overflow-hidden group">
+<div class="absolute left-0 top-0 w-1 h-full bg-secondary transform origin-bottom scale-y-0 group-hover:scale-y-100 transition-transform duration-300"></div>
+<div class="font-label-sm text-label-sm text-secondary mb-2 flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">light_mode</span>
+                            Light Transmission
+                        </div>
+<div class="font-headline-md text-headline-md text-on-surface">&gt; 99.98%</div>
+<div class="font-body-md text-body-md text-on-surface-variant mt-1 text-sm">Across visible and near-infrared spectrums.</div>
+</div>
+<div class="p-6 rounded-xl bg-surface-container-low/50 backdrop-blur-md relative overflow-hidden group">
+<div class="absolute left-0 top-0 w-1 h-full bg-tertiary transform origin-bottom scale-y-0 group-hover:scale-y-100 transition-transform duration-300"></div>
+<div class="font-label-sm text-label-sm text-tertiary mb-2 flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">architecture</span>
+                            Matrix Density
+                        </div>
+<div class="font-headline-md text-headline-md text-on-surface">3.52 g/cm³</div>
+<div class="font-body-md text-body-md text-on-surface-variant mt-1 text-sm">Ultra-dense lattice structure for durability.</div>
+</div>
+<div class="p-6 rounded-xl bg-surface-container-low/50 backdrop-blur-md relative overflow-hidden group">
+<div class="absolute left-0 top-0 w-1 h-full bg-error transform origin-bottom scale-y-0 group-hover:scale-y-100 transition-transform duration-300"></div>
+<div class="font-label-sm text-label-sm text-error mb-2 flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">thermostat</span>
+                            Thermal Tolerance
+                        </div>
+<div class="font-headline-md text-headline-md text-on-surface">1,850 °C</div>
+<div class="font-body-md text-body-md text-on-surface-variant mt-1 text-sm">Peak operational threshold before degradation.</div>
+</div>
+</div>
+</section>
+<section class="glass-panel p-[40px] rounded-2xl bg-surface/60 backdrop-blur-[16px] shadow-xl">
+<h2 class="font-headline-md text-headline-md text-on-surface mb-6">Integration Architecture</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant mb-8 text-pretty leading-relaxed">
+                    Implementing the Zenith Prism into existing optical arrays requires specific mounting hardware to accommodate its unique resonance frequencies. We provide a full suite of API-driven servo mounts that auto-calibrate upon insertion.
+                </p>
+<!-- Mock Code Block / Technical Diagram -->
+<div class="relative bg-surface-container-lowest/80 rounded-xl p-6 border border-outline-variant/30 font-mono text-sm text-on-surface-variant overflow-x-auto">
+<div class="absolute top-0 right-0 px-3 py-1 bg-surface-container text-on-surface-variant text-xs rounded-bl-lg border-l border-b border-outline-variant/30">
+                        YAML Config
+                    </div>
+<pre><code><span class="text-secondary">prism_module:</span>
+  <span class="text-primary">id:</span> <span class="text-tertiary">"zenith-01a"</span>
+  <span class="text-primary">type:</span> <span class="text-tertiary">"hyper-refractive"</span>
+  <span class="text-primary">calibration:</span>
+    <span class="text-primary">auto_align:</span> <span class="text-error">true</span>
+    <span class="text-primary">resonance_target:</span> <span class="text-tertiary">432.05Hz</span>
+  <span class="text-primary">thermal_management:</span>
+    <span class="text-primary">cooling_active:</span> <span class="text-error">false</span>
+    <span class="text-primary">max_threshold:</span> <span class="text-tertiary">1800</span></code></pre>
+</div>
+</section>
+<!-- Decorative Visual Divider -->
+<div class="w-full flex justify-center py-8">
+<div class="w-24 h-1 rounded-full bg-gradient-to-r from-transparent via-primary-fixed-dim to-transparent opacity-50"></div>
+</div>
+<section class="text-center space-y-6">
+<h2 class="font-display-lg text-[32px] md:text-display-lg text-on-surface">Experience Clarity.</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-xl mx-auto">
+                    Join the waitlist to receive technical documentation and early access to the developer SDK.
+                </p>
+<div class="flex items-center justify-center gap-4 mt-8">
+<button class="px-8 py-4 rounded-xl bg-primary text-on-primary font-label-sm uppercase tracking-widest shadow-[0_0_20px_rgba(193,193,255,0.2)] hover:shadow-[0_0_30px_rgba(193,193,255,0.4)] hover:-translate-y-0.5 transition-all duration-300">
+                        Join Waitlist
+                    </button>
+<button class="px-8 py-4 rounded-xl glass-panel text-on-surface font-label-sm uppercase tracking-widest hover:bg-surface-container-high transition-colors duration-300">
+                        View Documentation
+                    </button>
+</div>
+</section>
+</article>
+</div>
+</div></main><footer class="w-full py-container-padding px-margin-desktop"><div class="glass-panel rounded-xl p-gutter flex flex-col md:flex-row items-center justify-between gap-gutter"><div class="font-label-sm text-on-surface-variant uppercase tracking-widest">© 2024 Lumina Prism. All Rights Reserved.</div><div class="flex items-center gap-gutter"><a class="text-on-surface-variant hover:text-primary transition-colors" href="#"><span class="material-symbols-outlined">public</span></a><a class="text-on-surface-variant hover:text-primary transition-colors" href="#"><span class="material-symbols-outlined">share</span></a><a class="text-on-surface-variant hover:text-primary transition-colors" href="#"><span class="material-symbols-outlined">mail</span></a></div></div></footer>
+
+</body></html>

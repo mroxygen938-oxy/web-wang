@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fresh Logs Catalog, ULP & Daily Free Drops - Wangling Cloud</title>
+    <meta name="description" content="Wangling Cloud is the premier marketplace for fresh system logs, telemetry access logs, and ULP (Ultimate Log Packages) with instant delivery.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "background": "#050214",
+                        "surface": "#050214",
+                        "surface-dim": "#050214",
+                        "surface-bright": "#31394d",
+                        "surface-container-lowest": "#03010b",
+                        "surface-container-low": "#0d0524",
+                        "surface-container": "#120830",
+                        "surface-container-high": "#1c0d42",
+                        "surface-container-highest": "#261254",
+                        "on-surface": "#dae2fd",
+                        "on-surface-variant": "#c7c4d8",
+                        "outline": "#908fa1",
+                        "outline-variant": "#464556",
+                        "primary": "#ff00a0",
+                        "on-primary": "#ffffff",
+                        "primary-container": "#e0115f",
+                        "on-primary-container": "#fdf9ff",
+                        "secondary": "#ddb8ff",
+                        "on-secondary": "#490081",
+                        "secondary-container": "#62259b",
+                        "on-secondary-container": "#d1a1ff",
+                        "tertiary": "#ffb691",
+                        "on-tertiary": "#552000",
+                        "tertiary-container": "#bf5200",
+                        "on-tertiary-container": "#fff9f7",
+                    },
+                    fontFamily: {
+                        "display-lg": ["Sora", "sans-serif"],
+                        "headline-md": ["Sora", "sans-serif"],
+                        "body-lg": ["Inter", "sans-serif"],
+                        "body-md": ["Inter", "sans-serif"],
+                        "label-sm": ["Inter", "sans-serif"],
+                        "mono": ["JetBrains Mono", "monospace"],
+                    }
+                }
+            }
+        };
+    </script>
+    <link rel="stylesheet" href="css/custom.css">
+    <script src="js/glass-effects.js" defer></script>
+</head>
+<body class="bg-background text-on-surface min-h-screen overflow-x-hidden">
+    <!-- Dynamic Glowing Magenta Ribbon Waves Background Canvas (Matches User Reference Image) -->
+<div class="bg-animation-container">
+  <canvas id="ribbon-wave-canvas" style="position:fixed;top:0;left:0;width:100%;height:100%;z-index:-2;pointer-events:none;background:radial-gradient(ellipse at 80% 20%, #200a45 0%, #0d0628 60%, #050214 100%);"></canvas>
+  <script>
+  (function() {
+    const canvas = document.getElementById('ribbon-wave-canvas');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+
+    let width = canvas.width = window.innerWidth;
+    let height = canvas.height = window.innerHeight;
+
+    window.addEventListener('resize', () => {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+    });
+
+    let mouseX = width * 0.7;
+    let mouseY = height * 0.4;
+    let targetMouseX = width * 0.7;
+    let targetMouseY = height * 0.4;
+
+    window.addEventListener('mousemove', (e) => {
+      targetMouseX = e.clientX;
+      targetMouseY = e.clientY;
+    });
+
+    let time = 0;
+
+    // Define 3 main glowing ribbon bundles (top right loop, main center swirl, bottom wave)
+    function drawRibbonBundle(linesCount, baseAlpha, timeOffset, mouseImpact) {
+      for (let i = 0; i < linesCount; i++) {
+        const offset = i * 6.5;
+        ctx.beginPath();
+
+        const strokeAlpha = (baseAlpha * (1 - i / linesCount)).toFixed(3);
+        
+        // Color gradient along ribbon lines: Hot Pink #ff00a0 to Electric Violet #8b5cf6
+        const strokeColor = i % 2 === 0 ? `rgba(255, 0, 160, ${strokeAlpha})` : `rgba(217, 70, 239, ${strokeAlpha})`;
+        ctx.strokeStyle = strokeColor;
+        ctx.lineWidth = 1.8;
+        ctx.shadowBlur = 10;
+        ctx.shadowColor = 'rgba(255, 0, 160, 0.5)';
+
+        // Control points influenced by time and smooth mouse coordinates
+        const p1x = width * 0.15 + Math.sin(time * 0.5 + i * 0.05) * 40;
+        const p1y = height * 0.85 + Math.cos(time * 0.4 + i * 0.05) * 30;
+
+        const p2x = width * 0.45 + (mouseX - width / 2) * 0.25 * mouseImpact + Math.cos(time * 0.6 + i * 0.04) * 60;
+        const p2y = height * 0.25 + (mouseY - height / 2) * 0.25 * mouseImpact + Math.sin(time * 0.5 + i * 0.04) * 80;
+
+        const p3x = width * 0.85 + (mouseX - width / 2) * 0.15 * mouseImpact + Math.sin(time * 0.4 + i * 0.03) * 70;
+        const p3y = height * 0.65 + (mouseY - height / 2) * 0.15 * mouseImpact + Math.cos(time * 0.7 + i * 0.03) * 90;
+
+        const p4x = width * 1.05 + offset;
+        const p4y = height * 0.15 + offset * 0.8;
+
+        ctx.moveTo(p1x + offset * 0.5, p1y - offset * 0.3);
+        ctx.bezierCurveTo(
+          p2x + offset * 0.8, p2y - offset * 0.5,
+          p3x - offset * 0.6, p3y + offset * 0.7,
+          p4x, p4y
+        );
+
+        ctx.stroke();
+      }
+    }
+
+    function drawSecondaryWave(linesCount, baseAlpha) {
+      for (let i = 0; i < linesCount; i++) {
+        const offset = i * 5;
+        ctx.beginPath();
+        const strokeAlpha = (baseAlpha * (1 - i / linesCount)).toFixed(3);
+        ctx.strokeStyle = `rgba(236, 72, 153, ${strokeAlpha})`;
+        ctx.lineWidth = 1.4;
+
+        const startX = -50;
+        const startY = height * 0.95 + offset * 0.3;
+
+        const cp1x = width * 0.35 + Math.sin(time * 0.4 + i * 0.05) * 50;
+        const cp1y = height * 0.75 + (mouseY - height / 2) * 0.1;
+
+        const cp2x = width * 0.75 + Math.cos(time * 0.5 + i * 0.05) * 50;
+        const cp2y = height * 0.9 + (mouseX - width / 2) * 0.1;
+
+        const endX = width + 50;
+        const endY = height * 0.85 + offset * 0.5;
+
+        ctx.moveTo(startX, startY);
+        ctx.bezierCurveTo(cp1x, cp1y, cp2x, cp2y, endX, endY);
+        ctx.stroke();
+      }
+    }
+
+    function render() {
+      // Clear with radial gradient matching screenshot
+      const bgGrad = ctx.createRadialGradient(width * 0.75, height * 0.35, 100, width * 0.5, height * 0.5, width * 0.9);
+      bgGrad.addColorStop(0, '#260a54');
+      bgGrad.addColorStop(0.5, '#0f062e');
+      bgGrad.addColorStop(1, '#050214');
+      
+      ctx.fillStyle = bgGrad;
+      ctx.fillRect(0, 0, width, height);
+
+      // Smooth mouse interpolation
+      mouseX += (targetMouseX - mouseX) * 0.04;
+      mouseY += (targetMouseY - mouseY) * 0.04;
+
+      time += 0.015;
+
+      // Draw dynamic layered glowing ribbons (Matching reference image)
+      drawRibbonBundle(32, 0.7, 0, 1.0);
+      drawSecondaryWave(20, 0.5);
+
+      requestAnimationFrame(render);
+    }
+
+    render();
+  })();
+  </script>
+</div>
+
+    <header class="fixed top-0 w-full z-50 glass-nav" style="background: rgba(12, 5, 32, 0.65); backdrop-filter: blur(35px);">
+        <div class="h-20 w-full px-4 md:px-16 flex items-center justify-between">
+            <a href="index.html" class="flex items-center gap-3 group">
+                <div class="w-10 h-10 rounded-full bg-primary/20 border border-primary/40 flex items-center justify-center group-hover:scale-105 transition-all shadow-[0_0_15px_rgba(255,0,160,0.4)]">
+                    <span class="material-symbols-outlined text-primary">terminal</span>
+                </div>
+                <div class="flex flex-col">
+                    <span class="font-display-lg text-lg md:text-xl font-extrabold tracking-tight text-gradient-primary leading-none">Wangling Cloud</span>
+                    <span class="text-[10px] text-primary tracking-widest uppercase font-semibold mt-0.5">Fresh Logs & ULP</span>
+                </div>
+            </a>
+            <nav class="hidden md:flex items-center gap-8">
+                <a href="index.html" class="transition-all font-medium text-body-md text-on-surface-variant hover:text-on-surface">Store Front</a>
+                <a href="product.html" class="transition-all font-medium text-body-md text-primary font-bold border-b-2 border-primary pb-1 shadow-[0_4px_12px_rgba(255,0,160,0.4)]">Logs Catalog & ULP</a>
+                <a href="updates.html" class="transition-all font-medium text-body-md text-on-surface-variant hover:text-on-surface">Restock & News</a>
+            </nav>
+            <div class="flex items-center gap-4">
+                <button onclick="toggleThemeHint()" title="Toggle Visual Glass Glow" class="p-2 rounded-full hover:bg-white/10 transition-all flex items-center justify-center text-on-surface border border-white/10">
+                    <span class="material-symbols-outlined text-primary">light_mode</span>
+                </button>
+                <a href="product.html#free-drop-vault" class="hidden sm:flex items-center gap-2 px-5 py-2.5 rounded-full bg-gradient-to-r from-tertiary to-primary text-white transition-all text-xs font-bold uppercase tracking-wider shadow-lg hover:shadow-primary/50">
+                    <span>🎁 Get Free Drop</span>
+                </a>
+                <div class="w-9 h-9 rounded-full bg-primary flex items-center justify-center text-white shadow-lg cursor-pointer hover:scale-105 transition-transform border border-white/20" title="Account Dashboard">
+                    <span class="material-symbols-outlined text-[18px]">person</span>
+                </div>
+            </div>
+        </div>
+    </header>
+    <main class="w-full pt-24 px-4 md:px-16 min-h-[calc(100vh-80px)]">
+
+<div class="flex flex-col w-full gap-12">
+    <div class="relative w-full h-[320px] md:h-[380px] flex flex-col justify-end p-6 md:p-12 -mt-6 overflow-hidden rounded-3xl border border-white/15 shadow-2xl" 
+         style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCU97sCbBgSmk6rdZoQI1tcnMOgsqTvL_lvsbQDnGQeFjkdDiE_lcL9Jq90O1b2uAlvvQ7jfSvnoECHJHdlhzm2_J3aYYCgsyzX0zc6Cu-vWdbiteEPe_n1Fys5V1U-YvWE2SdxXpu4p5DrWCNqmcYBBFr7HNfpyrZD0ylPY00OUnjrt2tM_xbP5lTjpE7CUzeQydCr2terrAxj89zC5Kf7ljypBP0j71i0whR8mEf4rntzWHkhvFk9'); background-size: cover; background-position: center;">
+        <div class="absolute inset-0 bg-gradient-to-t from-background via-background/60 to-transparent z-0"></div>
+        <div class="relative z-10 max-w-4xl space-y-3">
+            <div class="inline-flex items-center gap-2 px-4 py-1 rounded-full glass-panel bg-primary-container/30 text-on-primary-container font-label-sm text-xs uppercase tracking-widest border border-primary/40 shadow-[0_0_15px_rgba(255,0,160,0.4)]">
+                <span class="w-2.5 h-2.5 rounded-full bg-green-400 animate-ping"></span>
+                Daily Free Drop Vault Active
+            </div>
+            <h1 class="font-display-lg text-3xl md:text-5xl font-extrabold text-on-surface drop-shadow-2xl">
+                Logs Catalog, ULP & Daily Free Drops
+            </h1>
+            <p class="font-body-lg text-on-surface-variant max-w-2xl text-base md:text-lg">
+                Download daily free log drop files below or purchase premium Fresh Logs & high-bandwidth ULP stream packages with instant API access keys.
+            </p>
+        </div>
+    </div>
+
+    <!-- 🎁 Daily Free Drop Files Vault Section -->
+    <section id="free-drop-vault" class="w-full p-6 md:p-8 rounded-3xl glass-modal border border-tertiary/40 shadow-2xl space-y-6">
+        <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 pb-4 border-b border-white/15">
+            <div>
+                <span class="px-3 py-1 rounded-full bg-tertiary/20 text-tertiary text-xs font-bold uppercase tracking-wider border border-tertiary/40 mb-2 inline-block shadow-[0_0_15px_rgba(255,182,145,0.3)]">
+                    🎁 Daily Free Drop Files Vault (100% Free)
+                </span>
+                <h2 class="font-display-lg text-2xl md:text-3xl font-extrabold text-on-surface">
+                    Posted Free Drop Files for Download Today
+                </h2>
+            </div>
+            <div class="text-xs text-on-surface-variant bg-surface-container-high px-4 py-2 rounded-xl border border-white/15 flex items-center gap-2 font-mono">
+                <span class="material-symbols-outlined text-green-400 text-sm">update</span> Updated Today • 100% Free Direct Download
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+            <div class="glass-panel p-5 rounded-2xl border border-white/15 flex flex-col justify-between hover:border-tertiary/50 transition-all space-y-4">
+                <div>
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="px-2.5 py-0.5 rounded-full text-[11px] font-semibold border bg-tertiary/20 text-tertiary border-tertiary/30">FREE DROP TODAY</span>
+                        <span class="text-[11px] text-on-surface-variant font-mono">Today (Aug 10)</span>
+                    </div>
+
+                    <div class="flex items-center gap-3 mb-3">
+                        <div class="w-10 h-10 rounded-xl bg-tertiary/10 border border-tertiary/30 flex items-center justify-center text-tertiary shrink-0 shadow-[0_0_12px_rgba(255,182,145,0.3)]">
+                            <span class="material-symbols-outlined">download_for_offline</span>
+                        </div>
+                        <div class="overflow-hidden">
+                            <div class="font-bold text-sm text-on-surface truncate font-mono">Daily_Free_Fresh_Logs_Batch_Aug10.txt</div>
+                            <div class="text-xs text-on-surface-variant font-mono">2.4 MB • TXT / Raw Logs</div>
+                        </div>
+                    </div>
+
+                    <div class="text-xs text-primary bg-primary/10 px-3 py-1.5 rounded-xl border border-primary/20 font-mono">
+                        Includes: 500 Fresh Log Lines
+                    </div>
+                </div>
+
+                <a href="data/free_drops/Daily_Free_Fresh_Logs_Batch_Aug10.txt" download class="w-full py-2.5 text-center rounded-xl bg-gradient-to-r from-tertiary to-primary text-white font-label-sm font-bold uppercase tracking-wider shadow-md hover:shadow-tertiary/50 transition-all text-xs flex items-center justify-center gap-2">
+                    <span class="material-symbols-outlined text-sm">download</span>
+                    Download Free File
+                </a>
+            </div>
+
+            <div class="glass-panel p-5 rounded-2xl border border-white/15 flex flex-col justify-between hover:border-tertiary/50 transition-all space-y-4">
+                <div>
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="px-2.5 py-0.5 rounded-full text-[11px] font-semibold border bg-secondary/20 text-secondary border-secondary/30">ULP FREE TRIAL</span>
+                        <span class="text-[11px] text-on-surface-variant font-mono">Today (Aug 10)</span>
+                    </div>
+
+                    <div class="flex items-center gap-3 mb-3">
+                        <div class="w-10 h-10 rounded-xl bg-tertiary/10 border border-tertiary/30 flex items-center justify-center text-tertiary shrink-0 shadow-[0_0_12px_rgba(255,182,145,0.3)]">
+                            <span class="material-symbols-outlined">download_for_offline</span>
+                        </div>
+                        <div class="overflow-hidden">
+                            <div class="font-bold text-sm text-on-surface truncate font-mono">ULP_Free_Trial_Stream_Keys_Aug10.json</div>
+                            <div class="text-xs text-on-surface-variant font-mono">850 KB • JSON / ULP Keys</div>
+                        </div>
+                    </div>
+
+                    <div class="text-xs text-primary bg-primary/10 px-3 py-1.5 rounded-xl border border-primary/20 font-mono">
+                        Includes: 100 ULP Socket Tokens
+                    </div>
+                </div>
+
+                <a href="data/free_drops/ULP_Free_Trial_Stream_Keys_Aug10.json" download class="w-full py-2.5 text-center rounded-xl bg-gradient-to-r from-tertiary to-primary text-white font-label-sm font-bold uppercase tracking-wider shadow-md hover:shadow-tertiary/50 transition-all text-xs flex items-center justify-center gap-2">
+                    <span class="material-symbols-outlined text-sm">download</span>
+                    Download Free File
+                </a>
+            </div>
+
+            <div class="glass-panel p-5 rounded-2xl border border-white/15 flex flex-col justify-between hover:border-tertiary/50 transition-all space-y-4">
+                <div>
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="px-2.5 py-0.5 rounded-full text-[11px] font-semibold border bg-primary/20 text-primary border-primary/30">FREE ARCHIVE</span>
+                        <span class="text-[11px] text-on-surface-variant font-mono">Yesterday</span>
+                    </div>
+
+                    <div class="flex items-center gap-3 mb-3">
+                        <div class="w-10 h-10 rounded-xl bg-tertiary/10 border border-tertiary/30 flex items-center justify-center text-tertiary shrink-0 shadow-[0_0_12px_rgba(255,182,145,0.3)]">
+                            <span class="material-symbols-outlined">download_for_offline</span>
+                        </div>
+                        <div class="overflow-hidden">
+                            <div class="font-bold text-sm text-on-surface truncate font-mono">Cloud_Telemetry_Audit_Free_Sample_Pack.csv</div>
+                            <div class="text-xs text-on-surface-variant font-mono">4.1 MB • CSV / Telemetry</div>
+                        </div>
+                    </div>
+
+                    <div class="text-xs text-primary bg-primary/10 px-3 py-1.5 rounded-xl border border-primary/20 font-mono">
+                        Includes: 1,000 Verified Lines
+                    </div>
+                </div>
+
+                <a href="data/free_drops/Cloud_Telemetry_Audit_Free_Sample_Pack.csv" download class="w-full py-2.5 text-center rounded-xl bg-gradient-to-r from-tertiary to-primary text-white font-label-sm font-bold uppercase tracking-wider shadow-md hover:shadow-tertiary/50 transition-all text-xs flex items-center justify-center gap-2">
+                    <span class="material-symbols-outlined text-sm">download</span>
+                    Download Free File
+                </a>
+            </div>
+
+        </div>
+    </section>
+
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 pb-12">
+        <aside class="lg:col-span-4 space-y-6">
+            <div class="glass-panel p-6 rounded-2xl bg-surface-container-low/50 backdrop-blur-2xl sticky top-28 border border-white/15 space-y-6">
+                <div>
+                    <h3 class="font-headline-md text-lg font-bold mb-2 text-primary">Filter Catalog</h3>
+                    <div class="flex flex-col gap-2">
+                        <button onclick="filterCatalog('all')" id="btn-all" class="px-4 py-2 rounded-xl text-left text-xs font-bold uppercase tracking-wider bg-primary text-white transition-all shadow-md">All Packages</button>
+                        <button onclick="filterCatalog('Fresh Logs Only')" id="btn-fresh" class="px-4 py-2 rounded-xl text-left text-xs font-bold uppercase tracking-wider bg-surface-container-high text-on-surface-variant hover:text-on-surface transition-all">Logs Only (Block 1 & 2)</button>
+                        <button onclick="filterCatalog('ULP Packages Only')" id="btn-ulp" class="px-4 py-2 rounded-xl text-left text-xs font-bold uppercase tracking-wider bg-surface-container-high text-on-surface-variant hover:text-on-surface transition-all">ULP Only (Block 3)</button>
+                        <button onclick="filterCatalog('Fresh Logs & ULP Both')" id="btn-both" class="px-4 py-2 rounded-xl text-left text-xs font-bold uppercase tracking-wider bg-surface-container-high text-on-surface-variant hover:text-on-surface transition-all">Logs & ULP Both (Block 4)</button>
+                    </div>
+                </div>
+                <div class="pt-4 border-t border-white/15 space-y-2">
+                    <a href="index.html" class="block w-full py-2.5 text-center rounded-xl bg-surface-container-high hover:bg-primary hover:text-white text-on-surface font-label-sm font-bold uppercase tracking-wider transition-all text-xs border border-white/15">
+                        🏠 Home Page
+                    </a>
+                    <a href="#free-drop-vault" class="block w-full py-2.5 text-center rounded-xl bg-gradient-to-r from-tertiary to-primary text-white font-label-sm font-bold uppercase tracking-wider shadow-lg hover:shadow-tertiary/50 transition-all text-xs">
+                        🎁 Get Free Drop Today
+                    </a>
+                </div>
+            </div>
+        </aside>
+
+        <main class="lg:col-span-8 space-y-8">
+            <div class="space-y-6">
+
+                <div class="product-item glass-panel glass-panel-hover p-6 rounded-2xl border border-white/15 flex flex-col xl:flex-row justify-between gap-6" data-type="Fresh Logs Only">
+                    <div class="flex-grow space-y-3">
+                        <div class="flex items-center gap-3">
+                            <span class="px-3 py-1 rounded-full text-xs font-semibold border backdrop-blur-md bg-primary/20 text-primary border-primary/30">Fresh Logs Only</span>
+                            <span class="text-xs text-primary font-mono bg-primary/10 px-3 py-1 rounded-full border border-primary/20">Stock: 2,450 Logs Available</span>
+                        </div>
+                        <h3 class="font-headline-md text-xl font-bold text-on-surface">Block 1: Fresh System Access Logs (Logs Only)</h3>
+                        <p class="text-sm text-on-surface-variant leading-relaxed">Dedicated Fresh Logs Package. Harvested traffic and system audit logs with full IP, headers, and session tokens.</p>
+
+                        <div class="bg-surface-container-lowest p-4 rounded-xl border border-white/15 font-mono text-xs text-green-400/90 space-y-1 shadow-inner">
+                            <div class="text-[10px] font-sans text-primary/80 font-bold uppercase tracking-widest mb-1.5 flex items-center gap-1">
+                                <span class="material-symbols-outlined text-xs">terminal</span> VERIFIED SAMPLE LINES:
+                            </div>
+<div class="truncate">$ LOGS: 2026-08-10 00:24:12 [INFO] GET /api/v4/auth - 200 OK - IP: 198.51.100.42</div><div class="truncate">$ LOGS: 2026-08-10 00:24:15 [DEBUG] Auth Session Token Created - UID: wcloud_94821</div><div class="truncate">$ LOGS: 2026-08-10 00:24:18 [INFO] POST /telemetry/stream - 201 Created</div>
+                        </div>
+                    </div>
+
+                    <div class="xl:w-64 shrink-0 flex flex-col justify-between p-5 rounded-2xl bg-surface-container-low/80 border border-white/15 text-center space-y-3">
+                        <div>
+                            <div class="text-[11px] text-green-400 font-bold uppercase tracking-widest mb-0.5">🔥 Discount Price</div>
+                            <div class="text-xs text-on-surface-variant/60 line-through">Was $50</div>
+                            <div class="font-display-lg text-base font-extrabold text-green-400 mb-3 bg-green-500/10 py-1 rounded-lg border border-green-500/20 shadow-[0_0_15px_rgba(74,222,128,0.15)]">
+                                $19 (62% OFF Today)
+                            </div>
+                            <div class="text-[10px] text-on-surface-variant uppercase tracking-wider font-semibold">Monthly Price</div>
+                            <div class="font-bold text-xs text-primary mb-2">$29 / Month</div>
+                            <div class="text-[10px] text-on-surface-variant uppercase tracking-wider font-semibold">3 Months Price</div>
+                            <div class="font-bold text-xs text-secondary mb-2">$69 / 3 Months</div>
+                            <div class="text-[10px] text-on-surface-variant uppercase tracking-wider font-semibold">Lifetime Price</div>
+                            <div class="font-bold text-xs text-tertiary mb-3">$149 Lifetime Access</div>
+                        </div>
+
+                        <div class="space-y-2 pt-2 border-t border-white/15">
+                            <a href="index.html" class="block w-full py-2 rounded-xl bg-surface-container-high hover:bg-primary hover:text-white text-on-surface font-label-sm font-bold uppercase tracking-wider transition-all text-[11px] border border-white/15 shadow-sm">
+                                Home Page
+                            </a>
+                            <a href="#free-drop-vault" class="block w-full py-2 rounded-xl bg-gradient-to-r from-primary to-secondary text-white font-label-sm font-bold uppercase tracking-wider shadow-md hover:shadow-primary/50 transition-all text-[11px]">
+                                Get Free Drop Today
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-item glass-panel glass-panel-hover p-6 rounded-2xl border border-white/15 flex flex-col xl:flex-row justify-between gap-6" data-type="Fresh Logs Only">
+                    <div class="flex-grow space-y-3">
+                        <div class="flex items-center gap-3">
+                            <span class="px-3 py-1 rounded-full text-xs font-semibold border backdrop-blur-md bg-primary/20 text-primary border-primary/30">Fresh Logs Only</span>
+                            <span class="text-xs text-primary font-mono bg-primary/10 px-3 py-1 rounded-full border border-primary/20">Stock: 1,120 Logs Available</span>
+                        </div>
+                        <h3 class="font-headline-md text-xl font-bold text-on-surface">Block 2: Fresh Cloud Telemetry & Audit Logs (Logs Only)</h3>
+                        <p class="text-sm text-on-surface-variant leading-relaxed">Dedicated Cloud Access Logs Package containing container state changes, ingress requests, and gateway events.</p>
+
+                        <div class="bg-surface-container-lowest p-4 rounded-xl border border-white/15 font-mono text-xs text-green-400/90 space-y-1 shadow-inner">
+                            <div class="text-[10px] font-sans text-primary/80 font-bold uppercase tracking-widest mb-1.5 flex items-center gap-1">
+                                <span class="material-symbols-outlined text-xs">terminal</span> VERIFIED SAMPLE LINES:
+                            </div>
+<div class="truncate">$ LOGS: 2026-08-10 00:18:02 [SYS] Node Cluster Scaling Event - Auto-Spun 4 Micro-Containers</div><div class="truncate">$ LOGS: 2026-08-10 00:19:44 [GATEWAY] Ingress Route Updated - TLS 1.3 Handshake Successful</div><div class="truncate">$ LOGS: 2026-08-10 00:21:05 [AUDIT] User Auth Validated - Token #99482</div>
+                        </div>
+                    </div>
+
+                    <div class="xl:w-64 shrink-0 flex flex-col justify-between p-5 rounded-2xl bg-surface-container-low/80 border border-white/15 text-center space-y-3">
+                        <div>
+                            <div class="text-[11px] text-green-400 font-bold uppercase tracking-widest mb-0.5">🔥 Discount Price</div>
+                            <div class="text-xs text-on-surface-variant/60 line-through">Was $80</div>
+                            <div class="font-display-lg text-base font-extrabold text-green-400 mb-3 bg-green-500/10 py-1 rounded-lg border border-green-500/20 shadow-[0_0_15px_rgba(74,222,128,0.15)]">
+                                $29 (63% OFF Today)
+                            </div>
+                            <div class="text-[10px] text-on-surface-variant uppercase tracking-wider font-semibold">Monthly Price</div>
+                            <div class="font-bold text-xs text-primary mb-2">$45 / Month</div>
+                            <div class="text-[10px] text-on-surface-variant uppercase tracking-wider font-semibold">3 Months Price</div>
+                            <div class="font-bold text-xs text-secondary mb-2">$99 / 3 Months</div>
+                            <div class="text-[10px] text-on-surface-variant uppercase tracking-wider font-semibold">Lifetime Price</div>
+                            <div class="font-bold text-xs text-tertiary mb-3">$199 Lifetime Access</div>
+                        </div>
+
+                        <div class="space-y-2 pt-2 border-t border-white/15">
+                            <a href="index.html" class="block w-full py-2 rounded-xl bg-surface-container-high hover:bg-primary hover:text-white text-on-surface font-label-sm font-bold uppercase tracking-wider transition-all text-[11px] border border-white/15 shadow-sm">
+                                Home Page
+                            </a>
+                            <a href="#free-drop-vault" class="block w-full py-2 rounded-xl bg-gradient-to-r from-primary to-secondary text-white font-label-sm font-bold uppercase tracking-wider shadow-md hover:shadow-primary/50 transition-all text-[11px]">
+                                Get Free Drop Today
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-item glass-panel glass-panel-hover p-6 rounded-2xl border border-white/15 flex flex-col xl:flex-row justify-between gap-6" data-type="ULP Packages Only">
+                    <div class="flex-grow space-y-3">
+                        <div class="flex items-center gap-3">
+                            <span class="px-3 py-1 rounded-full text-xs font-semibold border backdrop-blur-md bg-secondary/20 text-secondary border-secondary/30">ULP Packages Only</span>
+                            <span class="text-xs text-primary font-mono bg-primary/10 px-3 py-1 rounded-full border border-primary/20">Stock: Unlimited ULP Stream</span>
+                        </div>
+                        <h3 class="font-headline-md text-xl font-bold text-on-surface">Block 3: ULP Enterprise Streaming Protocol (ULP Only)</h3>
+                        <p class="text-sm text-on-surface-variant leading-relaxed">Dedicated Ultimate Log Protocol (ULP) tier providing continuous WebSocket log streams, bulk downloads, and API webhooks.</p>
+
+                        <div class="bg-surface-container-lowest p-4 rounded-xl border border-white/15 font-mono text-xs text-green-400/90 space-y-1 shadow-inner">
+                            <div class="text-[10px] font-sans text-primary/80 font-bold uppercase tracking-widest mb-1.5 flex items-center gap-1">
+                                <span class="material-symbols-outlined text-xs">terminal</span> VERIFIED SAMPLE LINES:
+                            </div>
+<div class="truncate">$ ULP: CONNECT wss://ulp.wangling.cloud/v1/stream?token=ulp_live_token_7739</div><div class="truncate">$ ULP: STREAM [ACK] Protocol Connected - 50,000 events/sec active pipeline</div><div class="truncate">$ ULP: DATA [BULK_EXPORT] Batch #8491 Ready - 100,000 unparsed lines</div>
+                        </div>
+                    </div>
+
+                    <div class="xl:w-64 shrink-0 flex flex-col justify-between p-5 rounded-2xl bg-surface-container-low/80 border border-white/15 text-center space-y-3">
+                        <div>
+                            <div class="text-[11px] text-green-400 font-bold uppercase tracking-widest mb-0.5">🔥 Discount Price</div>
+                            <div class="text-xs text-on-surface-variant/60 line-through">Was $299</div>
+                            <div class="font-display-lg text-base font-extrabold text-green-400 mb-3 bg-green-500/10 py-1 rounded-lg border border-green-500/20 shadow-[0_0_15px_rgba(74,222,128,0.15)]">
+                                $99 (67% OFF Today)
+                            </div>
+                            <div class="text-[10px] text-on-surface-variant uppercase tracking-wider font-semibold">Monthly Price</div>
+                            <div class="font-bold text-xs text-primary mb-2">$149 / Month</div>
+                            <div class="text-[10px] text-on-surface-variant uppercase tracking-wider font-semibold">3 Months Price</div>
+                            <div class="font-bold text-xs text-secondary mb-2">$299 / 3 Months</div>
+                            <div class="text-[10px] text-on-surface-variant uppercase tracking-wider font-semibold">Lifetime Price</div>
+                            <div class="font-bold text-xs text-tertiary mb-3">$599 Lifetime Access</div>
+                        </div>
+
+                        <div class="space-y-2 pt-2 border-t border-white/15">
+                            <a href="index.html" class="block w-full py-2 rounded-xl bg-surface-container-high hover:bg-primary hover:text-white text-on-surface font-label-sm font-bold uppercase tracking-wider transition-all text-[11px] border border-white/15 shadow-sm">
+                                Home Page
+                            </a>
+                            <a href="#free-drop-vault" class="block w-full py-2 rounded-xl bg-gradient-to-r from-primary to-secondary text-white font-label-sm font-bold uppercase tracking-wider shadow-md hover:shadow-primary/50 transition-all text-[11px]">
+                                Get Free Drop Today
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-item glass-panel glass-panel-hover p-6 rounded-2xl border border-white/15 flex flex-col xl:flex-row justify-between gap-6" data-type="Fresh Logs & ULP Both">
+                    <div class="flex-grow space-y-3">
+                        <div class="flex items-center gap-3">
+                            <span class="px-3 py-1 rounded-full text-xs font-semibold border backdrop-blur-md bg-tertiary/20 text-tertiary border-tertiary/30">Fresh Logs & ULP Both</span>
+                            <span class="text-xs text-primary font-mono bg-primary/10 px-3 py-1 rounded-full border border-primary/20">Stock: Logs + ULP Combo Pack</span>
+                        </div>
+                        <h3 class="font-headline-md text-xl font-bold text-on-surface">Block 4: Fresh Logs + ULP Master Combo Pack (Both Logs & ULP)</h3>
+                        <p class="text-sm text-on-surface-variant leading-relaxed">Ultimate Master Pack including BOTH hourly Fresh System Logs and Unlimited ULP Protocol Socket Streaming in one bundle.</p>
+
+                        <div class="bg-surface-container-lowest p-4 rounded-xl border border-white/15 font-mono text-xs text-green-400/90 space-y-1 shadow-inner">
+                            <div class="text-[10px] font-sans text-primary/80 font-bold uppercase tracking-widest mb-1.5 flex items-center gap-1">
+                                <span class="material-symbols-outlined text-xs">terminal</span> VERIFIED SAMPLE LINES:
+                            </div>
+<div class="truncate">$ LOGS: 2026-08-10 00:24:12 [INFO] GET /api/v4/auth - 200 OK (Fresh Log)</div><div class="truncate">$ ULP: CONNECT wss://ulp.wangling.cloud/v1/stream?token=ulp_master_combo (ULP Stream)</div><div class="truncate">$ BOTH: 50,000 Fresh Logs Download + Unlimited ULP Pipeline Active</div>
+                        </div>
+                    </div>
+
+                    <div class="xl:w-64 shrink-0 flex flex-col justify-between p-5 rounded-2xl bg-surface-container-low/80 border border-white/15 text-center space-y-3">
+                        <div>
+                            <div class="text-[11px] text-green-400 font-bold uppercase tracking-widest mb-0.5">🔥 Discount Price</div>
+                            <div class="text-xs text-on-surface-variant/60 line-through">Was $350</div>
+                            <div class="font-display-lg text-base font-extrabold text-green-400 mb-3 bg-green-500/10 py-1 rounded-lg border border-green-500/20 shadow-[0_0_15px_rgba(74,222,128,0.15)]">
+                                $129 (63% OFF Today)
+                            </div>
+                            <div class="text-[10px] text-on-surface-variant uppercase tracking-wider font-semibold">Monthly Price</div>
+                            <div class="font-bold text-xs text-primary mb-2">$179 / Month</div>
+                            <div class="text-[10px] text-on-surface-variant uppercase tracking-wider font-semibold">3 Months Price</div>
+                            <div class="font-bold text-xs text-secondary mb-2">$349 / 3 Months</div>
+                            <div class="text-[10px] text-on-surface-variant uppercase tracking-wider font-semibold">Lifetime Price</div>
+                            <div class="font-bold text-xs text-tertiary mb-3">$699 Lifetime Access</div>
+                        </div>
+
+                        <div class="space-y-2 pt-2 border-t border-white/15">
+                            <a href="index.html" class="block w-full py-2 rounded-xl bg-surface-container-high hover:bg-primary hover:text-white text-on-surface font-label-sm font-bold uppercase tracking-wider transition-all text-[11px] border border-white/15 shadow-sm">
+                                Home Page
+                            </a>
+                            <a href="#free-drop-vault" class="block w-full py-2 rounded-xl bg-gradient-to-r from-primary to-secondary text-white font-label-sm font-bold uppercase tracking-wider shadow-md hover:shadow-primary/50 transition-all text-[11px]">
+                                Get Free Drop Today
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+</div>
+<script>
+function filterCatalog(type) {
+    const items = document.querySelectorAll('.product-item');
+    items.forEach(item => {
+        if (type === 'all' || item.dataset.type === type) {
+            item.style.display = 'flex';
+        } else {
+            item.style.display = 'none';
+        }
+    });
+}
+</script>
+
+    </main>
+    <footer class="w-full py-8 px-4 md:px-16 mt-16">
+        <div class="glass-panel rounded-2xl p-6 flex flex-col md:flex-row items-center justify-between gap-6 border border-white/10 shadow-lg">
+            <div class="font-label-sm text-on-surface-variant uppercase tracking-widest text-xs">
+                © 2026 Wangling Cloud. All Rights Reserved. Dynamic Magenta Ribbon Waves Engine.
+            </div>
+            <div class="flex items-center gap-6">
+                <a href="index.html" class="text-on-surface-variant hover:text-primary transition-colors flex items-center gap-1 text-sm">
+                    <span class="material-symbols-outlined text-base">storefront</span>
+                    <span class="hidden sm:inline">Store</span>
+                </a>
+                <a href="product.html#free-drop-vault" class="text-on-surface-variant hover:text-tertiary transition-colors flex items-center gap-1 text-sm">
+                    <span class="material-symbols-outlined text-base">card_giftcard</span>
+                    <span class="hidden sm:inline">Free Drop Vault</span>
+                </a>
+            </div>
+        </div>
+    </footer>
+    <script>
+        function toggleThemeHint() {
+            const canvas = document.getElementById('ribbon-wave-canvas');
+            if (canvas) {
+                canvas.style.filter = canvas.style.filter ? '' : 'hue-rotate(90deg) brightness(1.3)';
+            }
+        }
+    </script>
+</body>
+</html>

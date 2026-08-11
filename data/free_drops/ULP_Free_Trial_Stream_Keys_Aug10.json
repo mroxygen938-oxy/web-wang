@@ -1,0 +1,8 @@
+{
+  "provider": "Wangling Cloud ULP Stream Protocol",
+  "trial_key": "ulp_live_trial_token_8849201",
+  "socket_endpoint": "wss://ulp.wangling.cloud/v1/stream?token=ulp_live_trial_token_8849201",
+  "events_per_sec": 10000,
+  "status": "ACTIVE_FREE_TRIAL",
+  "expires": "2026-08-11T00:00:00Z"
+}

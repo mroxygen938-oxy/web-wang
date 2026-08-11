@@ -1,0 +1,121 @@
+/* Wangling Cloud - Dynamic Magenta Ribbon Wave Theme (Matches User Reference Image) */
+@layer base {
+  html, body {
+    margin: 0;
+    padding: 0;
+    color-scheme: dark;
+    background-color: #050214;
+    color: #dae2fd;
+    min-height: 100vh;
+    font-family: 'Inter', sans-serif;
+  }
+}
+
+/* Custom Glass Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(5, 2, 20, 0.9);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 0, 160, 0.35);
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 0, 160, 0.7);
+  box-shadow: 0 0 12px rgba(255, 0, 160, 0.8);
+}
+
+/* Ultra Transparent Royal Violet Glass Panels (Showcases Magenta Ribbon Canvas behind) */
+.glass-panel {
+  position: relative;
+  background: radial-gradient(600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(255, 0, 160, 0.14), transparent 45%), rgba(15, 6, 40, 0.55);
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.25), 0 20px 40px rgba(0, 0, 0, 0.6);
+  overflow: hidden;
+  transform: none !important; /* Fixed & stationary */
+}
+
+.glass-panel-hover {
+  transition: border-color 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
+  transform: none !important;
+}
+.glass-panel-hover:hover {
+  background: radial-gradient(800px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(255, 0, 160, 0.22), transparent 40%), rgba(28, 12, 60, 0.75);
+  border-color: rgba(255, 0, 160, 0.5);
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.7), 0 0 35px rgba(255, 0, 160, 0.3), inset 0 1px 2px rgba(255, 255, 255, 0.35);
+  transform: none !important;
+}
+
+.glass-nav {
+  background: radial-gradient(1000px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(255, 0, 160, 0.15), transparent 50%), rgba(12, 5, 32, 0.65);
+  backdrop-filter: blur(35px);
+  -webkit-backdrop-filter: blur(35px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+}
+
+.glass-modal {
+  background: radial-gradient(800px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(255, 0, 160, 0.2), transparent 45%), rgba(18, 7, 45, 0.8);
+  backdrop-filter: blur(38px);
+  -webkit-backdrop-filter: blur(38px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 40px 80px rgba(0, 0, 0, 0.8), 0 0 50px rgba(255, 0, 160, 0.35), inset 0 1px 2px rgba(255, 255, 255, 0.3);
+}
+
+/* Magenta Specular Sheen Animations */
+.glass-panel::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 0, 160, 0.18), transparent);
+  transform: skewX(-25deg);
+  transition: left 0.8s ease;
+  pointer-events: none;
+}
+.glass-panel:hover::before {
+  left: 150%;
+}
+
+/* Background Container */
+.bg-animation-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -2;
+  pointer-events: none;
+}
+
+/* Dynamic Magenta & Neon Pink Text Gradients */
+.text-gradient-primary {
+  background: linear-gradient(135deg, #ff00a0 0%, #d946ef 50%, #c1c1ff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-gradient-tertiary {
+  background: linear-gradient(135deg, #ff5e62 0%, #ff00a0 50%, #ddb8ff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Glow Shadows */
+.glow-primary {
+  box-shadow: 0 0 25px rgba(255, 0, 160, 0.45);
+}
+.glow-secondary {
+  box-shadow: 0 0 25px rgba(217, 70, 239, 0.45);
+}
+.glow-tertiary {
+  box-shadow: 0 0 25px rgba(255, 182, 145, 0.45);
+}

@@ -1,0 +1,245 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta content="width=device-width, initial-scale=1.0" name="viewport"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&amp;family=Sora:wght@600;700&amp;display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"><style>@layer base{html,body{margin:0;padding:0;color-scheme:dark;}body{overscroll-behavior:none;background:#0b1326;min-height:100vh;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}.glass-panel{background:rgba(23,31,51,0.6);backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,0.1);box-shadow:inset 0 1px 1px rgba(255,255,255,0.05);}.glass-nav{background:rgba(11,19,38,0.7);backdrop-filter:blur(30px);border-bottom:1px solid rgba(255,255,255,0.05);}.bg-animation-container{position:fixed;top:0;left:0;width:100%;height:100%;z-index:-1;pointer-events:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{"error-container":"#93000a","on-tertiary-fixed":"#341100","on-surface":"#dae2fd","on-primary-container":"#fdf9ff","on-primary-fixed":"#09006b","on-primary-fixed-variant":"#2b20d2","on-surface-variant":"#c7c4d8","tertiary-container":"#bf5200","background":"#0b1326","on-secondary-fixed":"#2c0051","on-error":"#690005","surface-dim":"#0b1326","on-secondary":"#490081","tertiary":"#ffb691","surface-container-low":"#131b2e","on-secondary-container":"#d1a1ff","secondary-fixed-dim":"#ddb8ff","primary-fixed-dim":"#c1c1ff","on-tertiary-fixed-variant":"#793100","secondary":"#ddb8ff","surface-variant":"#2d3449","surface-container-high":"#222a3d","outline-variant":"#464556","surface-tint":"#c1c1ff","primary":"#c1c1ff","secondary-container":"#62259b","surface-container-highest":"#2d3449","primary-fixed":"#e1dfff","tertiary-fixed":"#ffdbcb","surface":"#0b1326","inverse-on-surface":"#283044","inverse-surface":"#dae2fd","outline":"#908fa1","error":"#ffb4ab","surface-container":"#171f33","primary-container":"#5d5cff","on-tertiary-container":"#fff9f7","surface-bright":"#31394d","on-tertiary":"#552000","surface-container-lowest":"#060e20","on-background":"#dae2fd","on-secondary-fixed-variant":"#62259b","secondary-fixed":"#f0dbff","on-error-container":"#ffdad6","tertiary-fixed-dim":"#ffb691","inverse-primary":"#4643e9","on-primary":"#1500a8"},borderRadius:{DEFAULT:"0.25rem",lg:"0.5rem",xl:"0.75rem",full:"9999px"},spacing:{base:"8px",gutter:"24px","margin-desktop":"64px","margin-mobile":"16px","container-padding":"32px"},fontFamily:{"body-lg":["Inter"],"display-lg":["Sora"],"label-sm":["Inter"],"body-md":["Inter"],"headline-md":["Sora"],"display-lg-mobile":["Sora"]},fontSize:{"body-lg":["18px",{lineHeight:"1.6",fontWeight:"400"}],"display-lg":["48px",{lineHeight:"1.1",letterSpacing:"-0.02em",fontWeight:"700"}],"label-sm":["13px",{lineHeight:"1",letterSpacing:"0.05em",fontWeight:"600"}],"body-md":["16px",{lineHeight:"1.5",fontWeight:"400"}],"headline-md":["24px",{lineHeight:"1.3",fontWeight:"600"}],"display-lg-mobile":["32px",{lineHeight:"1.2",letterSpacing:"-0.02em",fontWeight:"700"}]}}}}</script></head><body class="bg-background font-body-md text-on-surface min-h-screen"><div class="bg-animation-container"><!-- STITCH_SHADER_START:ANIMATION_2 class="" -->
+<div class="" style="display:block;width:100%;height:100%;min-height:200px;">
+<canvas id="shader-canvas-ANIMATION_2" style="display:block;width:100%;height:100%" width="1280" height="2143"></canvas>
+<script>
+(function() {
+  const canvas = document.getElementById('shader-canvas-ANIMATION_2');
+
+  // Sync the WebGL drawing-buffer size with the CSS-driven layout size.
+  // This fires on initial layout and whenever the element is resized.
+  function syncSize() {
+    const w = canvas.clientWidth  || 1280;
+    const h = canvas.clientHeight || 720;
+    if (canvas.width !== w || canvas.height !== h) {
+      canvas.width  = w;
+      canvas.height = h;
+    }
+  }
+  if (typeof ResizeObserver !== 'undefined') {
+    new ResizeObserver(syncSize).observe(canvas);
+  }
+  syncSize();
+
+  const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+  if (!gl) return;
+  const vs = `attribute vec2 a_position;
+varying vec2 v_texCoord;
+void main() {
+  v_texCoord = a_position * 0.5 + 0.5;
+  gl_Position = vec4(a_position, 0.0, 1.0);
+}`;
+  const fs = `precision highp float;
+uniform float u_time;
+uniform vec2 u_resolution;
+uniform vec2 u_mouse;
+varying vec2 v_texCoord;
+
+void main() {
+    vec2 uv = v_texCoord;
+    vec2 mouse = u_mouse / u_resolution;
+    
+    // Create a flowing, liquid-like gradient background
+    float color1 = sin(uv.x * 3.0 + u_time * 0.5) * 0.5 + 0.5;
+    float color2 = cos(uv.y * 2.0 - u_time * 0.3) * 0.5 + 0.5;
+    float color3 = sin((uv.x + uv.y) * 4.0 + u_time * 0.7) * 0.5 + 0.5;
+    
+    // Interaction with mouse
+    float dist = distance(uv, mouse);
+    float glow = smoothstep(0.3, 0.0, dist) * 0.2;
+    
+    vec3 baseColor = vec3(0.05, 0.08, 0.15); // Deep dark blue
+    vec3 accent1 = vec3(0.36, 0.36, 1.0);    // Electric blue
+    vec3 accent2 = vec3(0.5, 0.0, 0.8);      // Purple
+    
+    vec3 finalColor = mix(baseColor, accent1, color1 * 0.3);
+    finalColor = mix(finalColor, accent2, color2 * 0.2);
+    finalColor += glow * accent1;
+    
+    gl_FragColor = vec4(finalColor, 1.0);
+}`;
+  function cs(type, src) {
+    const s = gl.createShader(type);
+    gl.shaderSource(s, src);
+    gl.compileShader(s);
+    return s;
+  }
+  const prog = gl.createProgram();
+  gl.attachShader(prog, cs(gl.VERTEX_SHADER, vs));
+  gl.attachShader(prog, cs(gl.FRAGMENT_SHADER, fs));
+  gl.linkProgram(prog);
+  gl.useProgram(prog);
+  const buf = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 1,-1, -1,1, 1,1]), gl.STATIC_DRAW);
+  const pos = gl.getAttribLocation(prog, 'a_position');
+  gl.enableVertexAttribArray(pos);
+  gl.vertexAttribPointer(pos, 2, gl.FLOAT, false, 0, 0);
+  const uTime = gl.getUniformLocation(prog, 'u_time');
+  const uRes = gl.getUniformLocation(prog, 'u_resolution');
+  const uMouse = gl.getUniformLocation(prog, 'u_mouse');
+
+  // u_mouse is in pixel coordinates matching u_resolution (ShaderToy convention).
+  // Shaders that need normalized coords should use: u_mouse / u_resolution.
+  let mouse = { x: canvas.width / 2, y: canvas.height / 2 };
+  window.addEventListener('mousemove', (event) => {
+    const rect = canvas.getBoundingClientRect();
+    if (rect.width && rect.height) {
+      const nx = (event.clientX - rect.left) / rect.width;
+      const ny = 1.0 - (event.clientY - rect.top) / rect.height;
+      mouse.x = nx * canvas.width;
+      mouse.y = ny * canvas.height;
+    }
+  });
+
+  function render(t) {
+    if (typeof ResizeObserver === 'undefined') syncSize();
+    gl.viewport(0, 0, canvas.width, canvas.height);
+    if (uTime) gl.uniform1f(uTime, t * 0.001);
+    if (uRes) gl.uniform2f(uRes, canvas.width, canvas.height);
+    if (uMouse) gl.uniform2f(uMouse, mouse.x, mouse.y);
+    gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+    requestAnimationFrame(render);
+  }
+  render(0);
+})();
+</script>
+</div>
+<!-- STITCH_SHADER_END:ANIMATION_2 --></div><header class="fixed top-0 w-full z-50 glass-nav"><div class="h-20 w-full px-margin-desktop flex items-center justify-between"><div class="flex items-center gap-base"><img alt="Lumina Prism Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCzJ0eZwRoTpE7ThqhF5tDO8xOOMiBb3UkBHZjwdJ2vViq2yZcCKksd5s9ZxOe4Vejanh7Gv9mKk_8CIEw5jAMWafqbJYs1FhrsXgQpk5wEcCxp8S7G6NdEkNLFTcbMEK_cAal9luh_mTqsf5B7jhA-EjEWGRyFeCSSyu1ClppbhEaL3hDInwzVCa84JMegpgx6q7D5HCt7ifSJmJSCClSbPXVypJPAn-f4ANC-2dVVtTygVSR45YlT"><span class="font-display-lg text-headline-md tracking-tight text-on-surface">Wangling Cloud</span></div><nav class="hidden md:flex items-center gap-gutter" data-active-classes="text-primary font-semibold"><a class="font-body-md text-on-surface-variant hover:text-on-surface transition-colors" data-path="home" href="#">Home</a><a class="font-body-md text-on-surface-variant hover:text-on-surface transition-colors" data-path="product" href="#">Product</a><a aria-current="page" class="transition-colors text-primary font-semibold" data-path="updates" href="#">Updates</a></nav><div class="flex items-center gap-gutter"><button class="p-base rounded-full hover:bg-surface-container-high transition-colors flex items-center justify-center"><span class="material-symbols-outlined text-on-surface">light_mode</span></button><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="w-full pt-20 px-margin-desktop min-h-[calc(100vh-80px)]"><div class="flex flex-col w-full">
+<div class="relative w-full min-h-[409px] flex flex-col justify-center mb-margin-desktop overflow-hidden rounded-xl">
+<div class="absolute inset-0 bg-surface-container-lowest glass-panel mix-blend-overlay"></div>
+<div class="absolute -top-32 -right-32 w-96 h-96 bg-primary opacity-20 blur-[100px] rounded-full animate-pulse pointer-events-none"></div>
+<div class="relative z-10 p-gutter max-w-4xl mx-auto text-center">
+<h1 class="font-display-lg text-display-lg text-on-surface mb-base animate-fade-in-up">Changelog &amp; Updates</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant animate-fade-in-up">The latest news, product updates, and technical insights from the Lumina Prism team.</p>
+</div>
+</div>
+<div class="flex flex-col gap-margin-desktop max-w-5xl mx-auto w-full pb-margin-desktop" id="updates-container">
+<!-- Post 1: Image Left, Text Right -->
+<article class="update-card group relative glass-panel rounded-xl overflow-hidden transition-all duration-500 hover:-translate-y-2 cursor-pointer flex flex-col md:flex-row shadow-lg hover:shadow-2xl reveal-visible">
+<div class="absolute inset-0 bg-gradient-to-r from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
+<div class="w-full md:w-2/5 shrink-0 relative overflow-hidden">
+<div class="absolute inset-0 bg-surface-container-highest/20 z-10"></div>
+<img alt="v2.4 Release" class="w-full h-full object-cover min-h-[300px] transition-transform duration-700 group-hover:scale-105" data-alt="A sleek, dark mode user interface dashboard floating in a void of deep indigo and neon purple. Thin glowing lines connect data points. Glassmorphism styling with high contrast bright cyan accents. Depth of field effect." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBZmfZdvztZghgZJYkUQr0iuMr_eF5vWs8RiusSBzu0DkEYRMu6FZIWGaVTCZd4gIiiU-hUcbI0UbxvBjFTxJb9tDlGr1rX0KVXA2Qv4G3yk3TeY1fhkKmlFAqkaaVo2Q3VADsavMMmX_clIfOVVCtauiD4fXmsVejYJPID0CPkRvuSKGySb4NmVOQnFoS9d8six-zWYtRTojcwuO8QASTBxBDokDrigLY00Yqe-4bwxlMScEAJYna_">
+</div>
+<div class="p-gutter md:p-container-padding flex flex-col justify-center flex-grow relative z-20">
+<div class="flex items-center gap-base mb-4">
+<span class="inline-flex items-center justify-center px-3 py-1 rounded-full bg-primary/20 text-primary font-label-sm text-label-sm backdrop-blur-md border border-primary/30">Release</span>
+<span class="font-body-md text-body-md text-on-surface-variant/70 tracking-widest uppercase text-xs">Oct 24, 2024</span>
+</div>
+<h2 class="font-headline-md text-headline-md text-on-surface mb-base group-hover:text-primary transition-colors">Introducing Spectral Analytics Engine v2.4</h2>
+<p class="font-body-md text-body-md text-on-surface-variant line-clamp-3 mb-gutter">
+          Our latest update overhauls the data ingestion pipeline, introducing real-time telemetry processing with near-zero latency. Experience complex querying visualized instantly within the new glass-paneled dashboard components.
+        </p>
+<div class="mt-auto flex items-center text-primary font-label-sm text-label-sm group-hover:gap-4 transition-all duration-300">
+          Read Full Notes <span class="material-symbols-outlined ml-2 text-[18px]">arrow_forward</span>
+</div>
+</div>
+</article>
+<!-- Post 2: Image Right, Text Left (Alternating layout) -->
+<article class="update-card group relative glass-panel rounded-xl overflow-hidden transition-all duration-500 hover:-translate-y-2 cursor-pointer flex flex-col md:flex-row-reverse shadow-lg hover:shadow-2xl reveal-visible">
+<div class="absolute inset-0 bg-gradient-to-l from-secondary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
+<div class="w-full md:w-2/5 shrink-0 relative overflow-hidden">
+<div class="absolute inset-0 bg-surface-container-highest/20 z-10"></div>
+<img alt="Network Infrastructure" class="w-full h-full object-cover min-h-[300px] transition-transform duration-700 group-hover:scale-105" data-alt="Abstract 3D visualization of interconnected nodes glowing in soft lavender and deep violet hues against a pitch-black background. Thin strands of light pulse between the nodes, representing network traffic. Cinematic lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAo-vzVzPgigC53cgHz3DT7C96xTqFVmQu0Poby1RTvPSPbfUBSjb6vNg9TrG2UkxfiEYdBkpQk1EkCJrNBPvIhgKzBBYp-bF9TwIHcCWopZZdDbLdZTEQjXCviRSLhSD1Juka7azo-INv0DensqsFEYElVqUzrdCTtLYQ2ZEJtE4NmCc6KSB0pgGVoVMmrfFJjoEg3jP_XFt3Sgq2JJUDjh-t-dhHpbJdV1QJIuhNWL7h4aF_Aw5zb">
+</div>
+<div class="p-gutter md:p-container-padding flex flex-col justify-center flex-grow relative z-20">
+<div class="flex items-center gap-base mb-4">
+<span class="inline-flex items-center justify-center px-3 py-1 rounded-full bg-secondary/20 text-secondary font-label-sm text-label-sm backdrop-blur-md border border-secondary/30">Infrastructure</span>
+<span class="font-body-md text-body-md text-on-surface-variant/70 tracking-widest uppercase text-xs">Sep 15, 2024</span>
+</div>
+<h2 class="font-headline-md text-headline-md text-on-surface mb-base group-hover:text-secondary transition-colors">Global Node Expansion &amp; Latency Reduction</h2>
+<p class="font-body-md text-body-md text-on-surface-variant line-clamp-3 mb-gutter">
+          We've deployed 42 new edge nodes across the APAC and EMEA regions. This architectural shift leverages advanced refraction routing to ensure your data packets take the most optimal path, reducing global latency by up to 35%.
+        </p>
+<div class="mt-auto flex items-center text-secondary font-label-sm text-label-sm group-hover:gap-4 transition-all duration-300">
+          View Technical Details <span class="material-symbols-outlined ml-2 text-[18px]">arrow_forward</span>
+</div>
+</div>
+</article>
+<!-- Post 3: Full Width Hero style post -->
+<article class="update-card group relative glass-panel rounded-xl overflow-hidden transition-all duration-500 hover:-translate-y-2 cursor-pointer shadow-lg hover:shadow-2xl flex flex-col reveal-visible">
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest/90 via-surface-container-lowest/50 to-transparent z-10 pointer-events-none"></div>
+<div class="w-full h-64 md:h-80 relative overflow-hidden">
+<img alt="Design System" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="Close up of a premium frosted glass UI component reflecting subtle ambient light in warm orange and dark reds. Code snippets are barely visible etched into the glass surface. Minimalist, high tech aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAsS4j46tNzsbefNHhok-5Umpl3x7t6-LgF_oOs8nZxlWz77xrIOcz02Y1WQNA0m1lhP7nP2XpsS8gn__nd8Lv0c9ckEEW0fm8WeFeRpHgnka0oHMyEjQ66P8yIXsX-l-ugAd78xg7uOpK8MjcfmdZoSKY8FQTuEe9MfizTcNWB1_3whf1ogzRIsTXGCSQFRosuhHmHW7U10QEOMSSTnb6RNqffZy64iX9zUlIfHSZA5HP1Btpi31V2">
+</div>
+<div class="p-gutter md:p-container-padding flex flex-col relative z-20 -mt-20 md:-mt-32">
+<div class="flex items-center gap-base mb-4">
+<span class="inline-flex items-center justify-center px-3 py-1 rounded-full bg-tertiary/20 text-tertiary font-label-sm text-label-sm backdrop-blur-md border border-tertiary/30">Design</span>
+<span class="font-body-md text-body-md text-on-surface-variant/70 tracking-widest uppercase text-xs">Aug 02, 2024</span>
+</div>
+<h2 class="font-headline-md text-headline-md text-on-surface mb-base group-hover:text-tertiary transition-colors max-w-2xl">The Evolution of Prism: A New Visual Language</h2>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-3xl mb-gutter">
+          Deep dive into the philosophy behind our new design system. We explore the balance between functionality and aesthetics, detailing how we utilize specular highlights, calculated blurs, and vibrant accent colors to create an interface that feels both weightless and tangible.
+        </p>
+<div class="mt-auto flex items-center text-tertiary font-label-sm text-label-sm group-hover:gap-4 transition-all duration-300">
+          Read Design Philosophy <span class="material-symbols-outlined ml-2 text-[18px]">arrow_forward</span>
+</div>
+</div>
+</article>
+</div>
+</div>
+<style>
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-fade-in-up {
+    animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    opacity: 0;
+  }
+
+  .reveal-hidden {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .reveal-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+</style>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const cards = document.querySelectorAll('.update-card');
+    
+    // Initialize cards as hidden
+    cards.forEach(card => {
+      card.classList.add('reveal-hidden');
+    });
+
+    const observerOptions = {
+      root: null,
+      rootMargin: '0px',
+      threshold: 0.15
+    };
+
+    const observer = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          // Add a slight delay based on index if multiple cards appear at once
+          const delay = Array.from(cards).indexOf(entry.target) % 3 * 150;
+          setTimeout(() => {
+            entry.target.classList.remove('reveal-hidden');
+            entry.target.classList.add('reveal-visible');
+          }, delay);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, observerOptions);
+
+    cards.forEach(card => {
+      observer.observe(card);
+    });
+  });
+</script></main><footer class="w-full py-container-padding px-margin-desktop"><div class="glass-panel rounded-xl p-gutter flex flex-col md:flex-row items-center justify-between gap-gutter"><div class="font-label-sm text-on-surface-variant uppercase tracking-widest">© 2024 Lumina Prism. All Rights Reserved.</div><div class="flex items-center gap-gutter"><a class="text-on-surface-variant hover:text-primary transition-colors" href="#"><span class="material-symbols-outlined">public</span></a><a class="text-on-surface-variant hover:text-primary transition-colors" href="#"><span class="material-symbols-outlined">share</span></a><a class="text-on-surface-variant hover:text-primary transition-colors" href="#"><span class="material-symbols-outlined">mail</span></a></div></div></footer>
+
+</body></html>
