@@ -166,6 +166,17 @@
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
         
+        .interactive-cloud {
+            pointer-events: auto;
+            transition: filter 0.35s ease, transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+            will-change: transform, filter;
+        }
+        
+        .interactive-cloud:hover {
+            filter: drop-shadow(0 0 60px rgba(251, 191, 36, 0.95)) drop-shadow(0 0 30px rgba(245, 158, 11, 0.8)) brightness(1.35) !important;
+            cursor: pointer;
+        }
+
         .glass-panel {
             background: rgba(12, 11, 20, 0.65);
             backdrop-filter: blur(24px);
@@ -175,7 +186,7 @@
         }
         
         .glow-overlay {
-            background: radial-gradient(circle at 50% 50%, rgba(134, 134, 235, 0.15) 0%, transparent 70%);
+            background: radial-gradient(circle at 50% 50%, rgba(251, 191, 36, 0.15) 0%, transparent 70%);
         }
     </style>
 </head>
@@ -191,15 +202,15 @@
   <div class="absolute inset-0 bg-gradient-to-b from-[#07060D]/70 via-[#07060D]/40 to-[#07060D]/90 pointer-events-none"></div>
   <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_transparent_10%,_#07060D_90%)] opacity-75 pointer-events-none"></div>
 
-  <!-- Puffy Cloud 1 (Sky Layer - Interactive) -->
+  <!-- Puffy Cloud 1 (Sky Layer - Interactive Sepia & Golden Cream) -->
   <div class="interactive-cloud absolute top-[4%] left-0 cloud-drift-1">
     <svg width="460" height="280" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
       <defs>
         <linearGradient id="cloudGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stop-color="#F3E8FF" stop-opacity="0.9"/>
-          <stop offset="40%" stop-color="#C084FC" stop-opacity="0.7"/>
-          <stop offset="85%" stop-color="#7C3AED" stop-opacity="0.5"/>
-          <stop offset="100%" stop-color="#3B82F6" stop-opacity="0.2"/>
+          <stop offset="0%" stop-color="#FFFBEB" stop-opacity="0.95"/>
+          <stop offset="40%" stop-color="#FDE68A" stop-opacity="0.8"/>
+          <stop offset="85%" stop-color="#F59E0B" stop-opacity="0.55"/>
+          <stop offset="100%" stop-color="#78350F" stop-opacity="0.25"/>
         </linearGradient>
         <filter id="cloudGlow1" x="-40%" y="-40%" width="180%" height="180%">
           <feGaussianBlur stdDeviation="1.5" result="blur" />
@@ -212,15 +223,15 @@
     </svg>
   </div>
 
-  <!-- Puffy Cloud 2 (Mountain Horizon Layer - Interactive) -->
+  <!-- Puffy Cloud 2 (Mountain Horizon Layer - Interactive Bright Warm Cream) -->
   <div class="interactive-cloud absolute top-[18%] left-0 cloud-drift-2">
     <svg width="580" height="340" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
       <defs>
         <linearGradient id="cloudGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.9"/>
-          <stop offset="35%" stop-color="#DDD6FE" stop-opacity="0.8"/>
-          <stop offset="75%" stop-color="#818CF8" stop-opacity="0.6"/>
-          <stop offset="100%" stop-color="#4F46E5" stop-opacity="0.25"/>
+          <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.95"/>
+          <stop offset="35%" stop-color="#FEF3C7" stop-opacity="0.85"/>
+          <stop offset="75%" stop-color="#FBBF24" stop-opacity="0.65"/>
+          <stop offset="100%" stop-color="#B45309" stop-opacity="0.3"/>
         </linearGradient>
         <filter id="cloudGlow2" x="-40%" y="-40%" width="180%" height="180%">
           <feGaussianBlur stdDeviation="1.5" result="blur" />

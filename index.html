@@ -165,7 +165,7 @@
         }
         
         .interactive-cloud:hover {
-            filter: drop-shadow(0 0 60px rgba(192, 132, 252, 0.95)) drop-shadow(0 0 30px rgba(59, 130, 246, 0.8)) brightness(1.35) !important;
+            filter: drop-shadow(0 0 60px rgba(251, 191, 36, 0.95)) drop-shadow(0 0 30px rgba(245, 158, 11, 0.8)) brightness(1.35) !important;
             cursor: pointer;
         }
 
@@ -178,7 +178,7 @@
         }
         
         .glow-overlay {
-            background: radial-gradient(circle at 50% 50%, rgba(134, 134, 235, 0.15) 0%, transparent 70%);
+            background: radial-gradient(circle at 50% 50%, rgba(251, 191, 36, 0.15) 0%, transparent 70%);
         }
     </style>
 </head>
@@ -194,15 +194,15 @@
   <div class="absolute inset-0 bg-gradient-to-b from-[#07060D]/70 via-[#07060D]/40 to-[#07060D]/90 pointer-events-none"></div>
   <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_transparent_10%,_#07060D_90%)] opacity-75 pointer-events-none"></div>
 
-  <!-- Puffy Cloud 1 (Sky Layer - Interactive) -->
+  <!-- Puffy Cloud 1 (Sky Layer - Interactive Sepia & Golden Cream) -->
   <div class="interactive-cloud absolute top-[4%] left-0 cloud-drift-1">
     <svg width="460" height="280" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
       <defs>
         <linearGradient id="cloudGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stop-color="#F3E8FF" stop-opacity="0.9"/>
-          <stop offset="40%" stop-color="#C084FC" stop-opacity="0.7"/>
-          <stop offset="85%" stop-color="#7C3AED" stop-opacity="0.5"/>
-          <stop offset="100%" stop-color="#3B82F6" stop-opacity="0.2"/>
+          <stop offset="0%" stop-color="#FFFBEB" stop-opacity="0.95"/>
+          <stop offset="40%" stop-color="#FDE68A" stop-opacity="0.8"/>
+          <stop offset="85%" stop-color="#F59E0B" stop-opacity="0.55"/>
+          <stop offset="100%" stop-color="#78350F" stop-opacity="0.25"/>
         </linearGradient>
         <filter id="cloudGlow1" x="-40%" y="-40%" width="180%" height="180%">
           <feGaussianBlur stdDeviation="1.5" result="blur" />
@@ -215,15 +215,15 @@
     </svg>
   </div>
 
-  <!-- Puffy Cloud 2 (Mountain Horizon Layer - Interactive) -->
+  <!-- Puffy Cloud 2 (Mountain Horizon Layer - Interactive Bright Warm Cream) -->
   <div class="interactive-cloud absolute top-[18%] left-0 cloud-drift-2">
     <svg width="580" height="340" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
       <defs>
         <linearGradient id="cloudGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.9"/>
-          <stop offset="35%" stop-color="#DDD6FE" stop-opacity="0.8"/>
-          <stop offset="75%" stop-color="#818CF8" stop-opacity="0.6"/>
-          <stop offset="100%" stop-color="#4F46E5" stop-opacity="0.25"/>
+          <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.95"/>
+          <stop offset="35%" stop-color="#FEF3C7" stop-opacity="0.85"/>
+          <stop offset="75%" stop-color="#FBBF24" stop-opacity="0.65"/>
+          <stop offset="100%" stop-color="#B45309" stop-opacity="0.3"/>
         </linearGradient>
         <filter id="cloudGlow2" x="-40%" y="-40%" width="180%" height="180%">
           <feGaussianBlur stdDeviation="1.5" result="blur" />
@@ -236,15 +236,15 @@
     </svg>
   </div>
 
-  <!-- Puffy Cloud 3 (Lower Atmosphere Layer - Interactive) -->
+  <!-- Puffy Cloud 3 (Lower Atmosphere Layer - Interactive Golden Amber Ink) -->
   <div class="interactive-cloud absolute top-[45%] left-0 cloud-drift-3">
     <svg width="500" height="300" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
       <defs>
         <linearGradient id="cloudGrad3" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stop-color="#F472B6" stop-opacity="0.85"/>
-          <stop offset="45%" stop-color="#C084FC" stop-opacity="0.7"/>
-          <stop offset="85%" stop-color="#60A5FA" stop-opacity="0.45"/>
-          <stop offset="100%" stop-color="#1E3A8A" stop-opacity="0.2"/>
+          <stop offset="0%" stop-color="#FEF08A" stop-opacity="0.9"/>
+          <stop offset="45%" stop-color="#F59E0B" stop-opacity="0.7"/>
+          <stop offset="85%" stop-color="#D97706" stop-opacity="0.5"/>
+          <stop offset="100%" stop-color="#451A03" stop-opacity="0.25"/>
         </linearGradient>
         <filter id="cloudGlow3" x="-40%" y="-40%" width="180%" height="180%">
           <feGaussianBlur stdDeviation="1.5" result="blur" />
@@ -521,7 +521,7 @@ void main() {
         const blurRadius = 30 + factor * 40;
         
         cloud.style.transform = `translate(${pushX}px, ${pushY}px) scale(${scale})`;
-        cloud.style.filter = `drop-shadow(0 0 ${blurRadius}px rgba(192, 132, 252, ${glowOpacity})) drop-shadow(0 0 ${blurRadius * 0.8}px rgba(59, 130, 246, ${glowOpacity * 0.8})) brightness(${1 + factor * 0.45})`;
+        cloud.style.filter = `drop-shadow(0 0 ${blurRadius}px rgba(251, 191, 36, ${glowOpacity})) drop-shadow(0 0 ${blurRadius * 0.8}px rgba(245, 158, 11, ${glowOpacity * 0.8})) brightness(${1 + factor * 0.45})`;
       } else {
         cloud.style.transform = '';
         cloud.style.filter = '';
@@ -533,22 +533,22 @@ void main() {
   
   animateCloudInteraction();
 
-  // Interactive click reaction: Puffy pulse and glowing sparkle burst
+  // Interactive click reaction: Puffy pulse and glowing golden sparkle burst
   clouds.forEach(cloud => {
     cloud.addEventListener('click', (e) => {
       cloud.animate([
         { transform: 'scale(1)', filter: 'brightness(1)' },
-        { transform: 'scale(1.4)', filter: 'drop-shadow(0 0 80px #C084FC) brightness(1.7)' },
+        { transform: 'scale(1.4)', filter: 'drop-shadow(0 0 80px #F59E0B) brightness(1.7)' },
         { transform: 'scale(1)', filter: 'brightness(1)' }
       ], {
         duration: 550,
         easing: 'cubic-bezier(0.34, 1.56, 0.64, 1)'
       });
       
-      // Spawn glowing magic cloud sparkles at cursor location
+      // Spawn glowing magic golden sparkles at cursor location
       for (let i = 0; i < 10; i++) {
         const p = document.createElement('div');
-        p.className = 'fixed w-3.5 h-3.5 rounded-full bg-purple-300 pointer-events-none z-50 shadow-[0_0_20px_#C084FC]';
+        p.className = 'fixed w-3.5 h-3.5 rounded-full bg-amber-200 pointer-events-none z-50 shadow-[0_0_20px_#F59E0B]';
         p.style.left = `${e.clientX}px`;
         p.style.top = `${e.clientY}px`;
         document.body.appendChild(p);
