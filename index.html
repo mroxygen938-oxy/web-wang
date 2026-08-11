@@ -468,16 +468,26 @@ void main() {
 <span class="text-title-md font-headline-xl tracking-tighter text-on-surface uppercase tracking-widest text-lg font-bold">Wangling Cloud</span>
 </a>
 <!-- Desktop Nav -->
-<ul class="hidden md:flex items-center gap-8">
-<li>
-<a class="text-on-surface font-bold relative after:content-[''] after:absolute after:-bottom-2 after:left-1/2 after:-translate-x-1/2 after:w-1 after:h-1 after:bg-on-surface after:rounded-full hover:text-on-surface transition-colors duration-300 scale-95 active:scale-90 transition-transform font-title-md text-title-md" href="index.html">Home</a>
-</li>
-<li>
-<a class="text-on-surface/70 font-medium hover:text-on-surface transition-colors duration-300 scale-95 active:scale-90 transition-transform font-title-md text-title-md" href="product.html">Products</a>
-</li>
-<li>
-<a class="text-on-surface/70 font-medium hover:text-on-surface transition-colors duration-300 scale-95 active:scale-90 transition-transform font-title-md text-title-md" href="updates.html">Updates</a>
-</li>
+<ul class="hidden md:flex items-center gap-1.5 p-1.5 rounded-full bg-white/5 backdrop-blur-xl border border-white/10 relative shadow-2xl">
+  <!-- Dynamic Liquid Glass Hover Pill Background -->
+  <div id="nav-hover-pill" class="absolute top-1.5 bottom-1.5 rounded-full bg-gradient-to-r from-amber-400/25 via-amber-300/15 to-purple-400/20 border border-amber-300/40 opacity-0 transition-all duration-300 pointer-events-none shadow-[0_0_20px_rgba(251,191,36,0.35)]"></div>
+  
+  <li>
+    <a class="nav-link relative px-5 py-2 rounded-full font-bold text-amber-200 transition-all duration-300 flex items-center gap-1 text-sm tracking-wide group" href="index.html" data-page="Home">
+      <span class="relative z-10">Home</span>
+      <span class="w-1.5 h-1.5 rounded-full bg-amber-300 shadow-[0_0_8px_#F59E0B]"></span>
+    </a>
+  </li>
+  <li>
+    <a class="nav-link relative px-5 py-2 rounded-full font-medium text-on-surface/80 hover:text-amber-200 transition-all duration-300 flex items-center gap-1 text-sm tracking-wide group" href="product.html" data-page="Products">
+      <span class="relative z-10">Products</span>
+    </a>
+  </li>
+  <li>
+    <a class="nav-link relative px-5 py-2 rounded-full font-medium text-on-surface/80 hover:text-amber-200 transition-all duration-300 flex items-center gap-1 text-sm tracking-wide group" href="updates.html" data-page="Updates">
+      <span class="relative z-10">Updates</span>
+    </a>
+  </li>
 </ul>
 <!-- Actions -->
 <div class="hidden md:flex items-center gap-6">
@@ -616,6 +626,76 @@ void main() {
           easing: 'ease-out'
         }).onfinish = () => p.remove();
       }
+    });
+  });
+})();
+</script>
+
+<!-- Full-Screen Animated Page Transition Curtain -->
+<div id="page-transition-curtain" class="fixed inset-0 z-[999] pointer-events-none opacity-0 backdrop-blur-2xl bg-[#07060D]/85 transition-opacity duration-300 flex flex-col items-center justify-center gap-4">
+  <div id="curtain-content" class="flex flex-col items-center gap-3 transform translate-y-4 transition-all duration-300">
+    <span class="material-symbols-outlined text-5xl text-amber-300 animate-bounce" style="font-variation-settings: 'FILL' 1;">cloud</span>
+    <span id="curtain-text" class="font-headline-md text-amber-200 text-sm tracking-[0.25em] uppercase font-bold drop-shadow-[0_0_15px_rgba(251,191,36,0.6)]">Switching Page...</span>
+  </div>
+</div>
+
+<script>
+(function() {
+  // Magnetic Sliding Liquid Glass Nav Hover Pill
+  const navContainer = document.querySelector('ul.hidden.md\\:flex');
+  const hoverPill = document.getElementById('nav-hover-pill');
+  const navLinks = document.querySelectorAll('.nav-link');
+
+  if (navContainer && hoverPill) {
+    navLinks.forEach(link => {
+      link.addEventListener('mouseenter', () => {
+        const linkRect = link.getBoundingClientRect();
+        const containerRect = navContainer.getBoundingClientRect();
+        const left = linkRect.left - containerRect.left;
+        const width = linkRect.width;
+
+        hoverPill.style.left = `${left}px`;
+        hoverPill.style.width = `${width}px`;
+        hoverPill.style.opacity = '1';
+      });
+    });
+
+    navContainer.addEventListener('mouseleave', () => {
+      hoverPill.style.opacity = '0';
+    });
+  }
+
+  // Smooth Animated Page Transition Switcher
+  const curtain = document.getElementById('page-transition-curtain');
+  const curtainText = document.getElementById('curtain-text');
+  const curtainContent = document.getElementById('curtain-content');
+
+  // Fade in on page load
+  window.addEventListener('pageshow', () => {
+    if (curtain) {
+      curtain.classList.remove('opacity-100');
+      curtain.classList.add('opacity-0', 'pointer-events-none');
+    }
+  });
+
+  document.querySelectorAll('a[href$=".html"]').forEach(a => {
+    a.addEventListener('click', (e) => {
+      const href = a.getAttribute('href');
+      const currentPath = window.location.pathname.split('/').pop() || 'index.html';
+      if (!href || href.startsWith('#') || href === currentPath) return;
+      
+      e.preventDefault();
+      const pageName = a.getAttribute('data-page') || href.replace('.html', '').toUpperCase();
+      if (curtainText) curtainText.textContent = `Opening ${pageName}...`;
+      if (curtain) {
+        curtain.classList.remove('pointer-events-none', 'opacity-0');
+        curtain.classList.add('opacity-100');
+        if (curtainContent) curtainContent.classList.remove('translate-y-4');
+      }
+
+      setTimeout(() => {
+        window.location.href = href;
+      }, 260);
     });
   });
 })();
