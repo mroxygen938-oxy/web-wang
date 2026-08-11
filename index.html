@@ -158,6 +158,17 @@
             100% { transform: translateX(100vw) translateY(50px) scale(1.05); opacity: 0; }
         }
 
+        .interactive-cloud {
+            pointer-events: auto;
+            transition: filter 0.35s ease, transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+            will-change: transform, filter;
+        }
+        
+        .interactive-cloud:hover {
+            filter: drop-shadow(0 0 60px rgba(192, 132, 252, 0.95)) drop-shadow(0 0 30px rgba(59, 130, 246, 0.8)) brightness(1.35) !important;
+            cursor: pointer;
+        }
+
         .glass-panel {
             background: rgba(255, 255, 255, 0.05);
             backdrop-filter: blur(20px);
@@ -173,12 +184,12 @@
 <body class="bg-[#07060D] text-on-surface min-h-screen flex flex-col relative selection:bg-primary-container selection:text-on-primary-container">
 
 <!-- Distinct 3D Moving Cloud Background System -->
-<div class="fixed inset-0 z-0 pointer-events-none overflow-hidden bg-[#07060D]">
+<div class="fixed inset-0 z-0 overflow-hidden bg-[#07060D]">
   <!-- Deep Cosmic Ambient Glow -->
-  <div class="absolute inset-0 bg-gradient-to-b from-purple-950/30 via-indigo-950/20 to-[#07060D]"></div>
+  <div class="absolute inset-0 bg-gradient-to-b from-purple-950/30 via-indigo-950/20 to-[#07060D] pointer-events-none"></div>
 
-  <!-- Puffy Cloud 1 (Top Layer) -->
-  <div class="absolute top-[6%] left-0 cloud-drift-1">
+  <!-- Puffy Cloud 1 (Top Layer - Interactive) -->
+  <div class="interactive-cloud absolute top-[6%] left-0 cloud-drift-1">
     <svg width="550" height="300" viewBox="0 0 550 300" fill="none" xmlns="http://www.w3.org/2000/svg">
       <defs>
         <linearGradient id="cloudGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -198,8 +209,8 @@
     </svg>
   </div>
 
-  <!-- Puffy Cloud 2 (Hero Center - Large Volumetric Soft Cloud) -->
-  <div class="absolute top-[26%] left-0 cloud-drift-2">
+  <!-- Puffy Cloud 2 (Hero Center - Interactive) -->
+  <div class="interactive-cloud absolute top-[26%] left-0 cloud-drift-2">
     <svg width="680" height="360" viewBox="0 0 680 360" fill="none" xmlns="http://www.w3.org/2000/svg">
       <defs>
         <linearGradient id="cloudGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -219,8 +230,8 @@
     </svg>
   </div>
 
-  <!-- Puffy Cloud 3 (Mid-Lower Layer - Bright Azure Glow) -->
-  <div class="absolute top-[52%] left-0 cloud-drift-3">
+  <!-- Puffy Cloud 3 (Mid-Lower Layer - Interactive) -->
+  <div class="interactive-cloud absolute top-[52%] left-0 cloud-drift-3">
     <svg width="600" height="320" viewBox="0 0 600 320" fill="none" xmlns="http://www.w3.org/2000/svg">
       <defs>
         <linearGradient id="cloudGrad3" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -240,8 +251,8 @@
     </svg>
   </div>
 
-  <!-- Puffy Cloud 4 (Lower Viewport Layer) -->
-  <div class="absolute top-[72%] left-0 cloud-drift-4">
+  <!-- Puffy Cloud 4 (Lower Viewport Layer - Interactive) -->
+  <div class="interactive-cloud absolute top-[72%] left-0 cloud-drift-4">
     <svg width="640" height="340" viewBox="0 0 640 340" fill="none" xmlns="http://www.w3.org/2000/svg">
       <defs>
         <linearGradient id="cloudGrad4" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -261,7 +272,7 @@
   </div>
 
   <!-- Interactive WebGL Overlay Layer -->
-  <canvas id="shader-canvas-ANIMATION_3" class="absolute inset-0 w-full h-full object-cover z-10 opacity-40" style="display:block;width:100%;height:100%;"></canvas>
+  <canvas id="shader-canvas-ANIMATION_3" class="absolute inset-0 w-full h-full object-cover z-10 opacity-40 pointer-events-none" style="display:block;width:100%;height:100%;"></canvas>
 </div>
 <script>
 (function() {
@@ -489,7 +500,88 @@ void main() {
 <li><a class="font-label-sm text-label-sm text-on-surface-variant hover:text-on-surface opacity-80 hover:opacity-100 transition-all duration-300" href="index.html">Home</a></li>
 <li><a class="font-label-sm text-label-sm text-on-surface-variant hover:text-on-surface opacity-80 hover:opacity-100 transition-all duration-300" href="product.html">Products</a></li>
 <li><a class="font-label-sm text-label-sm text-on-surface-variant hover:text-on-surface opacity-80 hover:opacity-100 transition-all duration-300" href="updates.html">Updates</a></li>
-</ul>
-</div>
-</footer>
+<script>
+(function() {
+  const clouds = document.querySelectorAll('.interactive-cloud');
+  if (!clouds.length) return;
+  
+  let mouseX = -1000;
+  let mouseY = -1000;
+  
+  window.addEventListener('mousemove', (e) => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+  });
+
+  // Smooth 60FPS fluid physics loop for dynamic cloud reaction
+  function animateCloudInteraction() {
+    clouds.forEach((cloud) => {
+      const rect = cloud.getBoundingClientRect();
+      const cloudX = rect.left + rect.width / 2;
+      const cloudY = rect.top + rect.height / 2;
+      
+      const dx = mouseX - cloudX;
+      const dy = mouseY - cloudY;
+      const dist = Math.hypot(dx, dy);
+      
+      const maxDist = 320;
+      
+      if (dist < maxDist) {
+        const factor = (1 - dist / maxDist);
+        const pushX = (dx / dist) * -55 * factor;
+        const pushY = (dy / dist) * -40 * factor;
+        const scale = 1 + factor * 0.3;
+        const glowOpacity = 0.5 + factor * 0.5;
+        const blurRadius = 30 + factor * 40;
+        
+        cloud.style.transform = `translate(${pushX}px, ${pushY}px) scale(${scale})`;
+        cloud.style.filter = `drop-shadow(0 0 ${blurRadius}px rgba(192, 132, 252, ${glowOpacity})) drop-shadow(0 0 ${blurRadius * 0.8}px rgba(59, 130, 246, ${glowOpacity * 0.8})) brightness(${1 + factor * 0.45})`;
+      } else {
+        cloud.style.transform = '';
+        cloud.style.filter = '';
+      }
+    });
+    
+    requestAnimationFrame(animateCloudInteraction);
+  }
+  
+  animateCloudInteraction();
+
+  // Interactive click reaction: Puffy pulse and glowing sparkle burst
+  clouds.forEach(cloud => {
+    cloud.addEventListener('click', (e) => {
+      cloud.animate([
+        { transform: 'scale(1)', filter: 'brightness(1)' },
+        { transform: 'scale(1.4)', filter: 'drop-shadow(0 0 80px #C084FC) brightness(1.7)' },
+        { transform: 'scale(1)', filter: 'brightness(1)' }
+      ], {
+        duration: 550,
+        easing: 'cubic-bezier(0.34, 1.56, 0.64, 1)'
+      });
+      
+      // Spawn glowing magic cloud sparkles at cursor location
+      for (let i = 0; i < 10; i++) {
+        const p = document.createElement('div');
+        p.className = 'fixed w-3.5 h-3.5 rounded-full bg-purple-300 pointer-events-none z-50 shadow-[0_0_20px_#C084FC]';
+        p.style.left = `${e.clientX}px`;
+        p.style.top = `${e.clientY}px`;
+        document.body.appendChild(p);
+        
+        const angle = (Math.PI * 2 * i) / 10;
+        const speed = 45 + Math.random() * 65;
+        const tx = Math.cos(angle) * speed;
+        const ty = Math.sin(angle) * speed;
+        
+        p.animate([
+          { transform: 'translate(0, 0) scale(1)', opacity: 1 },
+          { transform: `translate(${tx}px, ${ty}px) scale(0)`, opacity: 0 }
+        ], {
+          duration: 750,
+          easing: 'ease-out'
+        }).onfinish = () => p.remove();
+      }
+    });
+  });
+})();
+</script>
 </body></html>
