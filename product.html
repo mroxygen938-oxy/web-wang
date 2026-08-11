@@ -222,16 +222,30 @@
 <body class="bg-[#07060D] text-on-surface min-h-screen flex flex-col relative selection:bg-primary-container selection:text-on-primary-container">
 
 <!-- 4.mp4 Video Background System -->
-<div class="fixed inset-0 z-0 overflow-hidden bg-[#07060D]">
+<div class="fixed inset-0 z-0 overflow-hidden bg-[#07060D]" style="background-image: url('3.png'); background-size: cover; background-position: center;">
   <!-- 4.mp4 Autoplay Seamless Video Background Base Layer -->
-  <video autoplay loop muted playsinline 
-         class="absolute inset-0 w-full h-full object-cover pointer-events-none transform scale-105 filter brightness-95 contrast-105">
+  <video id="bg-video-product" autoplay loop muted playsinline webkit-playsinline preload="auto" poster="3.png"
+         class="absolute inset-0 w-full h-full object-cover pointer-events-none transform scale-105 filter brightness-105 contrast-105 transition-opacity duration-700">
     <source src="4.mp4" type="video/mp4">
   </video>
   
-  <!-- Deep Atmospheric Vignette & Contrast Overlay -->
-  <div class="absolute inset-0 bg-gradient-to-b from-[#07060D]/65 via-[#07060D]/30 to-[#07060D]/85 pointer-events-none"></div>
-  <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_transparent_15%,_#07060D_85%)] opacity-70 pointer-events-none"></div>
+  <!-- Atmospheric Vignette & Contrast Overlay -->
+  <div class="absolute inset-0 bg-gradient-to-b from-[#07060D]/40 via-transparent to-[#07060D]/65 pointer-events-none"></div>
+  <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_transparent_30%,_#07060D_85%)] opacity-45 pointer-events-none"></div>
+  <script>
+    (function() {
+      const v = document.getElementById('bg-video-product');
+      if (v) {
+        v.muted = true;
+        const p = v.play();
+        if (p !== undefined) {
+          p.catch(() => {
+            v.style.display = 'none';
+          });
+        }
+      }
+    })();
+  </script>
 
   <!-- LAYER 1: Behind High Mountain Peaks (Farthest Sky Depth Layer) -->
   <div class="interactive-cloud absolute top-[2%] left-0 cloud-drift-1 z-1 opacity-70">
