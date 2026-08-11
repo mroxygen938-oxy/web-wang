@@ -670,23 +670,35 @@ void main() {
   const curtainText = document.getElementById('curtain-text');
   const curtainContent = document.getElementById('curtain-content');
 
-  // Fade in on page load
-  window.addEventListener('pageshow', () => {
+  function hideCurtain() {
     if (curtain) {
       curtain.classList.remove('opacity-100');
       curtain.classList.add('opacity-0', 'pointer-events-none');
+      if (curtainContent) curtainContent.classList.add('translate-y-4');
     }
-  });
+  }
 
-  document.querySelectorAll('a[href$=".html"]').forEach(a => {
+  // Ensure curtain hides on ready, load, pageshow, and fallback timer
+  hideCurtain();
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', hideCurtain);
+  }
+  window.addEventListener('load', hideCurtain);
+  window.addEventListener('pageshow', hideCurtain);
+  setTimeout(hideCurtain, 400);
+
+  // Smooth link navigation switcher
+  document.querySelectorAll('a[href]').forEach(a => {
     a.addEventListener('click', (e) => {
-      const href = a.getAttribute('href');
-      const currentPath = window.location.pathname.split('/').pop() || 'index.html';
-      if (!href || href.startsWith('#') || href === currentPath) return;
-      
+      const rawHref = a.getAttribute('href');
+      if (!rawHref || rawHref.startsWith('#') || rawHref.startsWith('javascript:') || a.target === '_blank') return;
+
+      const targetUrl = a.href;
+      if (targetUrl === window.location.href) return;
+
       e.preventDefault();
-      const pageName = a.getAttribute('data-page') || href.replace('.html', '').toUpperCase();
-      if (curtainText) curtainText.textContent = `Opening ${pageName}...`;
+      const pageName = a.getAttribute('data-page') || a.innerText.trim() || 'PAGE';
+      if (curtainText) curtainText.textContent = `OPENING ${pageName.toUpperCase()}...`;
       if (curtain) {
         curtain.classList.remove('pointer-events-none', 'opacity-0');
         curtain.classList.add('opacity-100');
@@ -694,8 +706,8 @@ void main() {
       }
 
       setTimeout(() => {
-        window.location.href = href;
-      }, 260);
+        window.location.href = targetUrl;
+      }, 200);
     });
   });
 })();
