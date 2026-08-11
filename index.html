@@ -213,31 +213,15 @@
 </head>
 <body class="bg-[#07060D] text-on-surface min-h-screen flex flex-col relative selection:bg-primary-container selection:text-on-primary-container">
 
-<!-- 4.mp4 Video Background System -->
-<div class="fixed inset-0 z-0 overflow-hidden bg-[#07060D]" style="background-image: url('3.png'); background-size: cover; background-position: center;">
-  <!-- 4.mp4 Autoplay Seamless Video Background Base Layer -->
-  <video id="bg-video-main" autoplay loop muted playsinline webkit-playsinline preload="auto" poster="3.png"
-         class="absolute inset-0 w-full h-full object-cover pointer-events-none filter brightness-85 contrast-110 saturate-105 opacity-85 transition-opacity duration-700">
-    <source src="4.mp4" type="video/mp4">
-  </video>
+<!-- 3.png Fixed Mountain Artwork Background System -->
+<div class="fixed inset-0 z-0 overflow-hidden bg-[#07060D]">
+  <!-- 3.png Mountain Image Base Layer -->
+  <div class="absolute inset-0 bg-cover bg-center bg-no-repeat pointer-events-none transform scale-105" 
+       style="background-image: url('3.png'); background-attachment: fixed;"></div>
   
-  <!-- Atmospheric Vignette & Contrast Overlay -->
-  <div class="absolute inset-0 bg-gradient-to-b from-[#07060D]/50 via-[#07060D]/25 to-[#07060D]/85 pointer-events-none"></div>
-  <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_transparent_20%,_#07060D_85%)] opacity-60 pointer-events-none"></div>
-  <script>
-    (function() {
-      const v = document.getElementById('bg-video-main');
-      if (v) {
-        v.muted = true;
-        const p = v.play();
-        if (p !== undefined) {
-          p.catch(() => {
-            v.style.display = 'none';
-          });
-        }
-      }
-    })();
-  </script>
+  <!-- Deep Atmospheric Vignette & Contrast Overlay -->
+  <div class="absolute inset-0 bg-gradient-to-b from-[#07060D]/70 via-[#07060D]/40 to-[#07060D]/90 pointer-events-none"></div>
+  <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_transparent_10%,_#07060D_90%)] opacity-75 pointer-events-none"></div>
 
   <!-- LAYER 1: Behind High Mountain Peaks (Farthest Sky Depth Layer) -->
   <div class="interactive-cloud absolute top-[2%] left-0 cloud-drift-1 z-1 opacity-70">
